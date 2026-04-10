@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linkxus — World News, Sports, Crypto & Entertainment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════ THEME VARIABLES ═══════ */
+[data-theme="dark"] {
+  --bg: #080810;
+  --surface: #0f0f1a;
+  --card: #13131f;
+  --border: #1c1c2e;
+  --border2: #252538;
+  --text: #f0f0f8;
+  --text2: #a0a0b8;
+  --text3: #606078;
+  --shadow: rgba(0,0,0,.5);
+  --hero-overlay: linear-gradient(0deg,rgba(8,8,16,.97) 0%,rgba(8,8,16,.6) 55%,rgba(8,8,16,.1) 100%);
+  --ticker-bg: #0f0f1a;
+  --img-fallback: linear-gradient(135deg,#0d0d20,#1a0a2e);
+  --toggle-track: #1c1c2e;
+  --toggle-icon: '☀️';
+  --reader-bg: #0f0f1a;
+}
+[data-theme="light"] {
+  --bg: #f5f5f8;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --border: #e4e4ed;
+  --border2: #d0d0de;
+  --text: #0d0d1a;
+  --text2: #4a4a6a;
+  --text3: #9090aa;
+  --shadow: rgba(0,0,0,.08);
+  --hero-overlay: linear-gradient(0deg,rgba(245,245,248,.97) 0%,rgba(245,245,248,.6) 55%,rgba(245,245,248,.1) 100%);
+  --ticker-bg: #ffffff;
+  --img-fallback: linear-gradient(135deg,#e8e8f0,#d5d5e8);
+  --toggle-track: #e4e4ed;
+  --toggle-icon: '🌙';
+  --reader-bg: #ffffff;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:var(--bg); color:var(--text);
+  font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden;
+  transition: background .35s ease, color .35s ease;
+}
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:#8b5cf6; border-radius:2px; }
+
+/* ═══════ THEME TOGGLE ═══════ */
+.theme-toggle {
+  position:relative; width:52px; height:28px; cursor:pointer; flex-shrink:0;
+}
+.theme-toggle input { opacity:0; width:0; height:0; position:absolute; }
+.toggle-track {
+  position:absolute; inset:0;
+  background:var(--toggle-track);
+  border:1px solid var(--border2);
+  border-radius:14px;
+  transition: all .35s ease;
+  display:flex; align-items:center; padding:2px 3px;
+}
+[data-theme="light"] .toggle-track { background:#e0e0ef; }
+.toggle-thumb {
+  width:22px; height:22px; border-radius:50%;
+  background:linear-gradient(135deg,#8b5cf6,#4f1db8);
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 2px 8px rgba(139,92,246,.4);
+}
+[data-theme="light"] .toggle-thumb { transform:translateX(24px); background:linear-gradient(135deg,#f59e0b,#e67e00); }
+.toggle-thumb::before { content:'🌙'; }
+[data-theme="light"] .toggle-thumb::before { content:'☀️'; }
+
+/* ═══════ SPLASH ═══════ */
+#splash {
+  position:fixed; inset:0; z-index:9999;
+  background:radial-gradient(ellipse 80% 60% at 50% 40%,#0a0a1f 0%,#040408 100%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  transition:opacity .8s ease, transform .8s ease;
+}
+#splash.out { opacity:0; transform:scale(1.06); pointer-events:none; }
+.sp-bird { width:110px; height:110px; animation:bFloat 3s ease-in-out infinite, bIn 1s ease forwards; opacity:0; }
+@keyframes bIn { to{opacity:1;} }
+@keyframes bFloat { 0%,100%{transform:translateY(0) rotate(-4deg);} 50%{transform:translateY(-18px) rotate(4deg);} }
+.sp-ring { width:160px; height:160px; border:1px solid rgba(0,229,255,.15); border-radius:50%; position:absolute; animation:ringPulse 2.5s ease-in-out infinite; }
+.sp-ring2 { width:220px; height:220px; border:1px solid rgba(139,92,246,.1); border-radius:50%; position:absolute; animation:ringPulse 2.5s 1s ease-in-out infinite; }
+@keyframes ringPulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.08);opacity:.4;} }
+.sp-name { font-family:'Playfair Display',serif; font-weight:900; font-size:64px; letter-spacing:-3px; margin-top:18px; background:linear-gradient(135deg,#fff 0%,#00e5ff 45%,#8b5cf6 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:fadeUp .9s .4s ease both; }
+.sp-tag { font-size:11px; color:#606078; letter-spacing:5px; text-transform:uppercase; margin-top:8px; animation:fadeUp .9s .7s ease both; }
+.sp-credit { margin-top:32px; animation:fadeUp .9s 1s ease both; }
+.sp-credit span { font-size:11px; color:rgba(255,255,255,.2); letter-spacing:2px; }
+.sp-credit strong { color:rgba(0,229,255,.5); font-weight:700; }
+.sp-bar { width:160px; height:2px; background:#1c1c2e; border-radius:2px; margin-top:22px; overflow:hidden; animation:fadeUp .6s 1.2s ease both; opacity:0; }
+.sp-fill { height:100%; width:0%; background:linear-gradient(90deg,#00e5ff,#8b5cf6); border-radius:2px; animation:fillB 2.4s 1.3s ease forwards; }
+@keyframes fillB { 0%{width:0%;} 60%{width:70%;} 100%{width:100%;} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+
+/* ═══════ LAYOUT ═══════ */
+.app { display:grid; grid-template-columns:260px 1fr 300px; max-width:1320px; margin:0 auto; min-height:100vh; }
+.app.hidden { opacity:0; } .app.visible { opacity:1; transition:opacity .6s .1s; }
+
+/* ═══════ SIDEBAR ═══════ */
+.sidebar { position:sticky; top:0; height:100vh; border-right:1px solid var(--border); display:flex; flex-direction:column; overflow:hidden; background:var(--surface); transition:background .35s; }
+.sidebar-inner { flex:1; overflow-y:auto; padding:20px 14px 14px; display:flex; flex-direction:column; gap:2px; }
+.sidebar-inner::-webkit-scrollbar { display:none; }
+.logo { display:flex; align-items:center; gap:10px; margin-bottom:16px; padding:0 4px; }
+.logo-bird { width:32px; height:32px; flex-shrink:0; }
+.logo-wordmark { font-family:'Playfair Display',serif; font-weight:900; font-size:20px; letter-spacing:-1px; color:var(--text); transition:color .35s; }
+.logo-wordmark em { font-style:normal; background:linear-gradient(135deg,#00e5ff,#8b5cf6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.sb-search { display:flex; align-items:center; gap:8px; background:var(--card); border:1px solid var(--border); border-radius:24px; padding:9px 14px; margin-bottom:12px; cursor:pointer; transition:all .2s; }
+.sb-search:hover { border-color:#00e5ff; }
+.sb-search span { font-size:13px; color:var(--text3); }
+.s-label { font-size:9px; font-weight:700; letter-spacing:2.5px; color:var(--text3); padding:8px 8px 3px; text-transform:uppercase; }
+.nav-btn { display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:10px; cursor:pointer; font-size:13px; font-weight:500; color:var(--text2); border:none; background:none; width:100%; text-align:left; font-family:'DM Sans',sans-serif; transition:all .15s; }
+.nav-btn:hover { background:var(--border); color:var(--text); }
+.nav-btn.on { background:var(--border); color:#00e5ff; border-left:2px solid #00e5ff; padding-left:8px; }
+.ni { font-size:15px; width:20px; text-align:center; flex-shrink:0; }
+.nav-div { height:1px; background:var(--border); margin:8px 0; }
+.sidebar-footer { padding:14px; border-top:1px solid var(--border); }
+.swal-cta { background:linear-gradient(135deg,#8b5cf6,#4f1db8); border:none; border-radius:12px; padding:12px 16px; color:#fff; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; gap:10px; width:100%; box-shadow:0 4px 20px rgba(139,92,246,.3); transition:transform .2s,box-shadow .2s; }
+.swal-cta:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(139,92,246,.5); }
+.pulse-dot { width:7px; height:7px; background:#10b981; border-radius:50%; animation:pulse 1.5s infinite; flex-shrink:0; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(1.6);} }
+
+/* ═══════ MAIN FEED ═══════ */
+.feed { border-right:1px solid var(--border); min-height:100vh; display:flex; flex-direction:column; background:var(--bg); transition:background .35s; }
+.feed-header { position:sticky; top:0; background:var(--surface); backdrop-filter:blur(24px); border-bottom:1px solid var(--border); z-index:20; transition:background .35s; }
+[data-theme="dark"] .feed-header { background:rgba(8,8,16,.92); }
+.feed-topbar { display:flex; align-items:center; justify-content:space-between; padding:14px 18px 0; gap:10px; }
+.feed-title { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; display:flex; align-items:center; gap:8px; color:var(--text); }
+.topbar-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.search-btn { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:7px 14px; font-size:11.5px; color:var(--text2); cursor:pointer; display:flex; align-items:center; gap:5px; font-family:'DM Sans',sans-serif; transition:all .2s; white-space:nowrap; }
+.search-btn:hover { border-color:#00e5ff; color:var(--text); }
+.tabs-wrap { overflow-x:auto; display:flex; padding:10px 18px 0; gap:2px; }
+.tabs-wrap::-webkit-scrollbar { display:none; }
+.tab { padding:8px 14px; font-size:12px; font-weight:600; color:var(--text3); cursor:pointer; border:none; background:none; font-family:'DM Sans',sans-serif; border-bottom:2px solid transparent; white-space:nowrap; transition:all .2s; }
+.tab:hover { color:var(--text); }
+.tab.on { color:#00e5ff; border-bottom-color:#00e5ff; }
+
+/* Ticker */
+.ticker { overflow:hidden; background:var(--ticker-bg); border-bottom:1px solid var(--border); padding:8px 0; transition:background .35s; }
+.ticker-inner { display:flex; gap:40px; animation:scroll 80s linear infinite; width:max-content; }
+@keyframes scroll { from{transform:translateX(0);} to{transform:translateX(-50%);} }
+.t-it { display:flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:10.5px; flex-shrink:0; color:var(--text2); }
+.t-sym { color:var(--text3); }
+.t-up { color:#10b981; } .t-dn { color:#ef4444; }
+
+/* Scores bar */
+.scores-bar { display:none; padding:10px 18px; background:var(--surface); border-bottom:1px solid var(--border); transition:background .35s; }
+.scores-bar.show { display:block; }
+.scores-label { font-size:9px; font-weight:700; color:#ef4444; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:5px; }
+.scores-label::before { content:''; width:5px; height:5px; background:#ef4444; border-radius:50%; animation:pulse 1s infinite; }
+.scores-row { display:flex; gap:8px; overflow-x:auto; }
+.scores-row::-webkit-scrollbar { display:none; }
+.score-card { background:var(--card); border:1px solid var(--border2); border-radius:10px; padding:8px 12px; flex-shrink:0; min-width:130px; transition:background .35s; }
+.sc-lge { font-size:8.5px; color:var(--text3); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:3px; }
+.sc-match { font-size:12px; font-weight:600; line-height:1.3; color:var(--text); }
+.sc-score { font-family:'JetBrains Mono',monospace; font-size:14px; font-weight:700; color:#00e5ff; margin-top:3px; }
+.sc-st { font-size:8.5px; color:#10b981; font-weight:600; }
+
+/* ═══════ NEWS IMAGES — REAL PHOTO SYSTEM ═══════ */
+/* Hero */
+.hero-wrap { padding:16px 18px 0; }
+.hero { background:var(--card); border:1px solid var(--border2); border-radius:16px; overflow:hidden; cursor:pointer; position:relative; transition:transform .2s, background .35s; }
+.hero:hover { transform:translateY(-2px); box-shadow:0 12px 40px var(--shadow); }
+
+/* Hero image container — fixed height, real photo fills it */
+.hero-img-wrap { position:relative; width:100%; height:240px; overflow:hidden; background:var(--img-fallback); }
+.hero-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease, opacity .4s ease; opacity:0; }
+.hero-img-wrap img.loaded { opacity:1; }
+.hero-img-wrap img:hover { transform:scale(1.03); }
+.hero-img-overlay { position:absolute; inset:0; background:var(--hero-overlay); pointer-events:none; }
+.hero-img-ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:64px; background:var(--img-fallback); transition:opacity .4s; }
+.hero-img-ph.hidden { opacity:0; pointer-events:none; }
+
+/* Real image badge */
+.img-source-badge {
+  position:absolute; bottom:10px; right:10px; z-index:2;
+  background:rgba(0,0,0,.65); backdrop-filter:blur(8px);
+  border-radius:6px; padding:3px 8px;
+  font-size:9px; color:rgba(255,255,255,.7); font-weight:600;
+  letter-spacing:.5px;
+}
+[data-theme="light"] .img-source-badge { background:rgba(255,255,255,.7); color:rgba(0,0,0,.6); }
+
+.hero-body { padding:16px; }
+.hero-meta { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.live-badge { background:#ef4444; color:#fff; font-size:8.5px; font-weight:800; letter-spacing:1.5px; padding:2px 7px; border-radius:4px; text-transform:uppercase; animation:blink 1s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+.hero-src { font-size:11px; color:var(--text3); font-weight:600; }
+.hero-title { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; line-height:1.35; margin-bottom:6px; color:var(--text); }
+.hero-desc { font-size:12.5px; color:var(--text2); line-height:1.7; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+
+/* ═══════ NEWS CARD — REAL IMAGE SYSTEM ═══════ */
+.card-list { padding:12px 18px; display:flex; flex-direction:column; gap:2px; }
+.news-card { display:flex; gap:12px; padding:14px 0; border-bottom:1px solid var(--border); cursor:pointer; transition:background .15s; border-radius:0; position:relative; }
+.news-card:hover { background:rgba(139,92,246,.04); }
+.news-card:hover .nc-title { color:#00e5ff; }
+
+/* Thumbnail — real image with shimmer loading */
+.nc-img {
+  width:88px; height:68px; border-radius:10px; flex-shrink:0;
+  background:var(--img-fallback); overflow:hidden; position:relative;
+}
+.nc-img.loading::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(90deg, var(--card) 25%, var(--border2) 50%, var(--card) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.4s infinite;
+  border-radius:10px;
+}
+@keyframes shimmer { 0%{background-position:200% 0;} 100%{background-position:-200% 0;} }
+.nc-img img { width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition:opacity .4s ease; position:absolute; inset:0; }
+.nc-img img.loaded { opacity:1; }
+.nc-img .nc-img-ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:26px; transition:opacity .3s; }
+.nc-img .nc-img-ph.hidden { opacity:0; pointer-events:none; }
+
+.nc-content { flex:1; min-width:0; }
+.nc-meta { display:flex; align-items:center; gap:6px; margin-bottom:5px; flex-wrap:wrap; }
+.nc-src { font-size:10.5px; font-weight:700; color:var(--text3); }
+.nc-cat { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 6px; border-radius:4px; }
+.nc-time { font-size:9.5px; color:var(--text3); font-family:'JetBrains Mono',monospace; margin-left:auto; flex-shrink:0; }
+.nc-title { font-size:14px; font-weight:600; line-height:1.4; margin-bottom:5px; transition:color .15s; color:var(--text); }
+.nc-desc { font-size:11.5px; color:var(--text2); line-height:1.6; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.nc-actions { display:flex; align-items:center; gap:10px; margin-top:8px; }
+.nc-act { background:none; border:none; font-size:10.5px; color:var(--text3); cursor:pointer; font-family:'DM Sans',sans-serif; transition:color .2s; display:flex; align-items:center; gap:3px; }
+.nc-act:hover { color:#00e5ff; }
+
+/* Cat colors */
+.cat-crypto{background:rgba(245,158,11,.12);color:#f59e0b;}
+.cat-forex{background:rgba(16,185,129,.1);color:#10b981;}
+.cat-stocks{background:rgba(16,185,129,.1);color:#6ee7b7;}
+.cat-economy{background:rgba(249,115,22,.1);color:#f97316;}
+.cat-ai{background:rgba(139,92,246,.15);color:#a78bfa;}
+.cat-tech{background:rgba(0,229,255,.1);color:#00e5ff;}
+.cat-sports{background:rgba(239,68,68,.12);color:#f87171;}
+.cat-nba{background:rgba(200,16,46,.12);color:#f97316;}
+.cat-nfl{background:rgba(1,51,105,.2);color:#60a5fa;}
+.cat-mlb{background:rgba(1,51,105,.2);color:#93c5fd;}
+.cat-mls{background:rgba(0,144,168,.15);color:#22d3ee;}
+.cat-ufc{background:rgba(200,0,0,.12);color:#f87171;}
+.cat-epl{background:rgba(60,88,152,.15);color:#818cf8;}
+.cat-euro{background:rgba(0,51,153,.12);color:#a5b4fc;}
+.cat-music{background:rgba(236,72,153,.12);color:#f472b6;}
+.cat-entertainment{background:rgba(236,72,153,.1);color:#ec4899;}
+.cat-world{background:rgba(16,185,129,.08);color:#34d399;}
+.cat-bbc{background:rgba(187,25,25,.12);color:#fca5a5;}
+.cat-gov{background:rgba(74,134,200,.12);color:#7eb3e8;}
+.cat-it{background:rgba(0,229,255,.1);color:#67e8f9;}
+
+/* ═══════ ARTICLE READER ═══════ */
+.reader-overlay { position:fixed; inset:0; z-index:400; display:none; }
+.reader-overlay.open { display:flex; }
+.reader-backdrop { position:absolute; inset:0; background:rgba(4,4,12,.85); backdrop-filter:blur(12px); cursor:pointer; }
+[data-theme="light"] .reader-backdrop { background:rgba(200,200,220,.7); }
+.reader-panel { position:relative; margin-left:auto; width:100%; max-width:680px; height:100vh; background:var(--reader-bg); border-left:1px solid var(--border); display:flex; flex-direction:column; overflow:hidden; animation:slideIn .3s ease; transition:background .35s; }
+@keyframes slideIn { from{transform:translateX(60px);opacity:0;} to{transform:translateX(0);opacity:1;} }
+.reader-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; flex-shrink:0; background:var(--surface); }
+.reader-back { background:var(--card); border:1px solid var(--border); border-radius:50%; width:34px; height:34px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text2); font-size:16px; transition:all .2s; flex-shrink:0; }
+.reader-back:hover { background:var(--border2); color:var(--text); }
+.reader-header-info { flex:1; min-width:0; }
+.reader-source { font-size:11px; color:var(--text3); font-weight:600; margin-bottom:2px; }
+.reader-time { font-size:10px; color:var(--text3); font-family:'JetBrains Mono',monospace; }
+.reader-actions { display:flex; gap:8px; }
+.r-act { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:7px 12px; font-size:11.5px; color:var(--text2); cursor:pointer; font-family:'DM Sans',sans-serif; transition:all .2s; display:flex; align-items:center; gap:5px; white-space:nowrap; }
+.r-act:hover { border-color:#00e5ff; color:#00e5ff; }
+.r-act.primary { background:#00e5ff; border-color:#00e5ff; color:#000; font-weight:700; }
+.r-act.primary:hover { opacity:.88; }
+.reader-body { flex:1; overflow-y:auto; padding:0 0 40px; }
+.reader-body::-webkit-scrollbar { width:3px; }
+
+/* Reader hero image — real photo */
+.reader-hero-img-wrap { position:relative; width:100%; height:280px; overflow:hidden; background:var(--img-fallback); }
+.reader-hero-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; opacity:0; transition:opacity .5s ease; }
+.reader-hero-img-wrap img.loaded { opacity:1; }
+.reader-hero-ph { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:80px; background:var(--img-fallback); transition:opacity .4s; }
+.reader-hero-ph.hidden { opacity:0; }
+
+.reader-content { padding:24px 28px; }
+.reader-cat-row { display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+.reader-cat-badge { font-size:9.5px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:3px 10px; border-radius:5px; }
+.reader-title { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; line-height:1.3; margin-bottom:12px; color:var(--text); }
+.reader-byline { font-size:12px; color:var(--text3); margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:6px; }
+.reader-byline strong { color:var(--text2); }
+.reader-text { font-size:15px; line-height:1.9; color:var(--text2); }
+.reader-text p { margin-bottom:18px; }
+.reader-text h3 { font-family:'Playfair Display',serif; font-size:19px; color:var(--text); margin:28px 0 12px; }
+.reader-text blockquote { border-left:3px solid #00e5ff; padding:12px 18px; margin:20px 0; background:var(--card); border-radius:0 8px 8px 0; font-style:italic; color:var(--text); }
+.reader-tags { display:flex; gap:8px; flex-wrap:wrap; margin-top:28px; padding-top:20px; border-top:1px solid var(--border); }
+.reader-tag { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:5px 12px; font-size:11.5px; color:var(--text2); }
+
+/* SWAL float btn */
+.swal-reader-btn { position:fixed; bottom:24px; right:24px; z-index:500; background:linear-gradient(135deg,#8b5cf6,#4f1db8); border:none; border-radius:50%; width:52px; height:52px; cursor:pointer; display:none; align-items:center; justify-content:center; font-size:22px; box-shadow:0 6px 24px rgba(139,92,246,.5); transition:transform .2s,box-shadow .2s; color:#fff; }
+.swal-reader-btn.show { display:flex; }
+.swal-reader-btn:hover { transform:scale(1.1); box-shadow:0 10px 32px rgba(139,92,246,.7); }
+
+/* ═══════ SEARCH OVERLAY ═══════ */
+.search-overlay { position:fixed; inset:0; z-index:600; display:none; align-items:flex-start; justify-content:center; padding-top:60px; background:rgba(4,4,12,.9); backdrop-filter:blur(20px); }
+[data-theme="light"] .search-overlay { background:rgba(200,200,220,.85); }
+.search-overlay.open { display:flex; }
+.search-box { background:var(--surface); border:1px solid var(--border2); border-radius:20px; width:100%; max-width:660px; overflow:hidden; transition:background .35s; }
+.search-top { display:flex; align-items:center; gap:12px; padding:16px 20px; border-bottom:1px solid var(--border); }
+.search-top input { flex:1; background:none; border:none; outline:none; color:var(--text); font-size:16px; font-family:'DM Sans',sans-serif; }
+.search-top input::placeholder { color:var(--text3); }
+.search-close { background:none; border:none; color:var(--text3); font-size:18px; cursor:pointer; }
+.search-res { max-height:400px; overflow-y:auto; padding:8px; }
+.sr-item { display:flex; gap:10px; padding:10px 12px; border-radius:10px; cursor:pointer; transition:background .15s; align-items:center; }
+.sr-item:hover { background:var(--card); }
+.sr-thumb { width:46px; height:38px; border-radius:7px; background:var(--border2); flex-shrink:0; overflow:hidden; display:flex; align-items:center; justify-content:center; font-size:18px; position:relative; }
+.sr-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.sr-meta { font-size:10px; color:var(--text3); margin-bottom:3px; }
+.sr-ttl { font-size:13px; font-weight:600; line-height:1.35; color:var(--text); }
+.search-empty { padding:40px; text-align:center; color:var(--text3); font-size:13px; }
+
+/* ═══════ RIGHT PANEL ═══════ */
+.panel { position:sticky; top:0; height:100vh; overflow-y:auto; padding:18px 14px; display:flex; flex-direction:column; gap:14px; background:var(--surface); transition:background .35s; }
+.panel::-webkit-scrollbar { display:none; }
+.widget { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:14px; transition:background .35s, border-color .35s; }
+.w-ttl { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; margin-bottom:11px; display:flex; align-items:center; gap:6px; color:var(--text); }
+.mkt-row { display:flex; align-items:center; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--border); }
+.mkt-row:last-child { border-bottom:none; }
+.mkt-sym { font-family:'JetBrains Mono',monospace; font-size:11.5px; font-weight:500; color:var(--text); }
+.mkt-name { font-size:9.5px; color:var(--text3); }
+.mkt-r { text-align:right; }
+.mkt-p { font-family:'JetBrains Mono',monospace; font-size:11.5px; color:var(--text); }
+.mkt-c { font-size:9.5px; font-family:'JetBrains Mono',monospace; }
+.up { color:#10b981; } .dn { color:#ef4444; }
+
+/* SWAL widget */
+.swal-widget { background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(79,29,184,.05)); border:1px solid rgba(139,92,246,.2); border-radius:14px; padding:14px; }
+.sw-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.sw-av { width:36px; height:36px; background:linear-gradient(135deg,#8b5cf6,#4f1db8); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; }
+.sw-name { font-weight:700; font-size:13px; color:var(--text); }
+.sw-sub { font-size:9.5px; color:var(--text3); }
+.sw-chat { background:var(--bg); border:1px solid var(--border); border-radius:9px; padding:10px; font-size:12px; color:var(--text2); line-height:1.65; min-height:56px; margin-bottom:8px; max-height:120px; overflow-y:auto; transition:background .35s; }
+.sw-row { display:flex; gap:6px; }
+.sw-inp { flex:1; background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:7px 10px; font-size:12px; color:var(--text); font-family:'DM Sans',sans-serif; outline:none; transition:border-color .2s, background .35s; }
+.sw-inp:focus { border-color:#8b5cf6; }
+.sw-send { background:#8b5cf6; border:none; border-radius:8px; width:30px; height:30px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; flex-shrink:0; transition:background .2s; }
+.sw-send:hover { background:#7c3aed; }
+
+/* Trending */
+.tr-item { padding:7px 0; border-bottom:1px solid var(--border); cursor:pointer; transition:padding .15s; }
+.tr-item:last-child { border-bottom:none; }
+.tr-item:hover { padding-left:4px; }
+.tr-num { font-size:9.5px; color:var(--text3); }
+.tr-tag { font-size:13px; font-weight:700; margin:2px 0; transition:color .2s; color:var(--text); }
+.tr-item:hover .tr-tag { color:#00e5ff; }
+.tr-cnt { font-size:9.5px; color:var(--text3); }
+
+/* ═══════ SWAL FULL MODAL ═══════ */
+.swal-modal { position:fixed; inset:0; background:var(--bg); z-index:700; display:none; flex-direction:column; transition:background .35s; }
+.swal-modal.open { display:flex; }
+.sm-head { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; background:var(--surface); }
+.sm-back { background:none; border:none; color:var(--text); font-size:20px; cursor:pointer; padding:4px; }
+.sm-info .sm-name { font-weight:800; font-size:15px; color:var(--text); }
+.sm-info .sm-status { font-size:10px; color:#10b981; }
+.sm-msgs { flex:1; overflow-y:auto; padding:18px 16px; display:flex; flex-direction:column; gap:12px; }
+.msg { max-width:85%; }
+.msg.user { align-self:flex-end; }
+.msg.ai { align-self:flex-start; }
+.msg-bbl { padding:11px 15px; border-radius:16px; font-size:13.5px; line-height:1.75; }
+.msg.user .msg-bbl { background:#8b5cf6; color:#fff; border-bottom-right-radius:4px; }
+.msg.ai .msg-bbl { background:var(--surface); border:1px solid var(--border2); border-bottom-left-radius:4px; color:var(--text2); }
+.msg-t { font-size:9px; color:var(--text3); margin-top:3px; text-align:right; font-family:'JetBrains Mono',monospace; }
+.sm-inp-row { padding:14px 16px; border-top:1px solid var(--border); display:flex; gap:10px; align-items:center; background:var(--surface); }
+.sm-inp-row input { flex:1; background:var(--card); border:1px solid var(--border); border-radius:24px; padding:11px 18px; font-size:13px; color:var(--text); font-family:'DM Sans',sans-serif; outline:none; transition:border-color .2s, background .35s; }
+.sm-inp-row input:focus { border-color:#8b5cf6; }
+.sm-inp-row button { width:42px; height:42px; background:linear-gradient(135deg,#8b5cf6,#4f1db8); border:none; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; font-size:17px; flex-shrink:0; transition:transform .2s; }
+.sm-inp-row button:hover { transform:scale(1.1); }
+.typing-d span { display:inline-block; width:5px; height:5px; background:var(--text3); border-radius:50%; animation:bounce .8s infinite; margin:0 2px; }
+.typing-d span:nth-child(2){animation-delay:.15s;} .typing-d span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-6px);}}
+
+/* Reader SWAL panel */
+.swal-reader-panel { position:fixed; bottom:0; left:0; right:0; z-index:501; background:var(--surface); border-top:1px solid var(--border2); border-radius:20px 20px 0 0; padding:18px 20px; max-height:50vh; overflow-y:auto; display:none; animation:slideUp .3s ease; box-shadow:0 -8px 32px var(--shadow); }
+.swal-reader-panel.open { display:block; }
+@keyframes slideUp { from{transform:translateY(100%);} to{transform:translateY(0);} }
+.srp-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+.srp-title { font-weight:700; font-size:14px; display:flex; align-items:center; gap:8px; color:var(--text); }
+.srp-close { background:none; border:none; color:var(--text3); font-size:18px; cursor:pointer; }
+.srp-response { font-size:13.5px; line-height:1.75; color:var(--text2); min-height:40px; }
+.srp-inp-row { display:flex; gap:8px; margin-top:12px; border-top:1px solid var(--border); padding-top:12px; }
+.srp-inp { flex:1; background:var(--card); border:1px solid var(--border); border-radius:24px; padding:10px 16px; font-size:13px; color:var(--text); font-family:'DM Sans',sans-serif; outline:none; transition:border-color .2s; }
+.srp-inp:focus { border-color:#8b5cf6; }
+.srp-send { background:#8b5cf6; border:none; border-radius:50%; width:38px; height:38px; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#fff; font-size:15px; flex-shrink:0; }
+
+/* Mobile nav */
+.mob-nav { display:none; position:fixed; bottom:0; left:0; right:0; background:var(--surface); backdrop-filter:blur(20px); border-top:1px solid var(--border); padding:10px 12px; z-index:50; justify-content:space-around; transition:background .35s; }
+.mob-btn { display:flex; flex-direction:column; align-items:center; gap:2px; font-size:8px; color:var(--text3); cursor:pointer; border:none; background:none; font-family:'DM Sans',sans-serif; transition:color .2s; min-width:40px; }
+.mob-btn:hover,.mob-btn.on { color:#00e5ff; }
+.mob-btn span { font-size:18px; }
+
+.toast { position:fixed; bottom:86px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--surface); border:1px solid var(--border2); border-radius:10px; padding:10px 18px; font-size:12px; opacity:0; transition:all .3s; z-index:800; pointer-events:none; white-space:nowrap; color:var(--text); }
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+.loading-card { padding:14px 18px; border-bottom:1px solid var(--border); display:flex; gap:12px; }
+.sk { background:linear-gradient(90deg,var(--card) 25%,var(--border2) 50%,var(--card) 75%); background-size:200% 100%; animation:sh 1.5s infinite; border-radius:6px; }
+@keyframes sh{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.empty { padding:60px 20px; text-align:center; color:var(--text3); }
+.empty .ico { font-size:44px; margin-bottom:12px; }
+.empty p { font-size:13px; }
+
+@media(max-width:1100px){.app{grid-template-columns:240px 1fr;}.panel{display:none;}}
+@media(max-width:680px){.app{grid-template-columns:1fr;}.sidebar{display:none;}.mob-nav{display:flex;}.feed{padding-bottom:72px;}}
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="sp-ring2"></div><div class="sp-ring"></div>
+  <svg class="sp-bird" viewBox="0 0 120 120" fill="none">
+    <defs><linearGradient id="spg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+    <ellipse cx="62" cy="70" rx="26" ry="17" fill="url(#spg)" opacity=".92"/>
+    <circle cx="88" cy="54" r="14" fill="url(#spg)"/>
+    <circle cx="93" cy="51" r="3.2" fill="white"/>
+    <circle cx="94.2" cy="51" r="1.6" fill="#040408"/>
+    <path d="M100 52 L114 49 L103 57 Z" fill="#f59e0b"/>
+    <path d="M58 66 Q26 40 8 56 Q28 72 54 74 Z" fill="url(#spg)" opacity=".82"/>
+    <path d="M68 58 Q88 32 108 36 Q97 54 78 66 Z" fill="url(#spg)" opacity=".72"/>
+    <path d="M36 74 Q18 88 12 105 Q28 90 44 82 Z" fill="url(#spg)" opacity=".76"/>
+  </svg>
+  <div class="sp-name">Linkxus</div>
+  <div class="sp-tag">World · Sports · Crypto · Entertainment</div>
+  <div class="sp-credit"><span>Powered by <strong>AdesinaEazeAI</strong> · SWAL AI Engine</span></div>
+  <div class="sp-bar"><div class="sp-fill"></div></div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-top">
+      <span style="font-size:16px;color:var(--text3)">🔍</span>
+      <input id="searchInput" type="text" placeholder="Search news, sports, music, crypto…" oninput="doSearch()" onkeydown="if(event.key==='Escape')closeSearch()">
+      <button class="search-close" onclick="closeSearch()">✕</button>
+    </div>
+    <div id="searchResults" class="search-empty">Start typing to search across all Linkxus stories…</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app hidden" id="appShell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="logo">
+        <svg class="logo-bird" viewBox="0 0 120 120" fill="none">
+          <defs><linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+          <ellipse cx="62" cy="70" rx="26" ry="17" fill="url(#lg1)" opacity=".92"/>
+          <circle cx="88" cy="54" r="14" fill="url(#lg1)"/>
+          <circle cx="93" cy="51" r="3.2" fill="white"/>
+          <circle cx="94.2" cy="51" r="1.6" fill="#040408"/>
+          <path d="M100 52 L114 49 L103 57 Z" fill="#f59e0b"/>
+          <path d="M58 66 Q26 40 8 56 Q28 72 54 74 Z" fill="url(#lg1)" opacity=".82"/>
+          <path d="M68 58 Q88 32 108 36 Q97 54 78 66 Z" fill="url(#lg1)" opacity=".72"/>
+          <path d="M36 74 Q18 88 12 105 Q28 90 44 82 Z" fill="url(#lg1)" opacity=".76"/>
+        </svg>
+        <div class="logo-wordmark">Link<em>xus</em></div>
+      </div>
+      <div class="sb-search" onclick="openSearch()"><span>🔍</span><span style="font-size:12px;color:var(--text3)">Search everything…</span></div>
+      <button class="nav-btn on" onclick="switchTab('all',this)"><span class="ni">🏠</span>Linkxus News</button>
+      <div class="s-label">Markets</div>
+      <button class="nav-btn" onclick="switchTab('crypto',this)"><span class="ni">₿</span>Crypto</button>
+      <button class="nav-btn" onclick="switchTab('forex',this)"><span class="ni">💱</span>Foreign Exchange</button>
+      <button class="nav-btn" onclick="switchTab('stocks',this)"><span class="ni">📈</span>World Stocks</button>
+      <button class="nav-btn" onclick="switchTab('economy',this)"><span class="ni">💹</span>Economy</button>
+      <div class="s-label">Tech & AI</div>
+      <button class="nav-btn" onclick="switchTab('ai',this)"><span class="ni">🤖</span>AI News</button>
+      <button class="nav-btn" onclick="switchTab('tech',this)"><span class="ni">💻</span>Technology</button>
+      <button class="nav-btn" onclick="switchTab('it',this)"><span class="ni">🏢</span>IT Companies</button>
+      <button class="nav-btn" onclick="switchTab('microsoft',this)"><span class="ni">🪟</span>Microsoft</button>
+      <button class="nav-btn" onclick="switchTab('amazon',this)"><span class="ni">📦</span>Amazon</button>
+      <button class="nav-btn" onclick="switchTab('google',this)"><span class="ni">🔵</span>Google</button>
+      <button class="nav-btn" onclick="switchTab('apple',this)"><span class="ni">🍎</span>Apple</button>
+      <button class="nav-btn" onclick="switchTab('meta',this)"><span class="ni">🌐</span>Meta</button>
+      <div class="s-label">Entertainment</div>
+      <button class="nav-btn" onclick="switchTab('entertainment',this)"><span class="ni">🎬</span>Entertainment</button>
+      <button class="nav-btn" onclick="switchTab('music',this)"><span class="ni">🎵</span>Music</button>
+      <button class="nav-btn" onclick="switchTab('hiphop',this)"><span class="ni">🎤</span>Hip-Hop & Rap</button>
+      <button class="nav-btn" onclick="switchTab('concerts',this)"><span class="ni">🎸</span>Concerts & Tours</button>
+      <button class="nav-btn" onclick="switchTab('spotify',this)"><span class="ni">💚</span>Spotify & Streaming</button>
+      <div class="s-label">US Sports</div>
+      <button class="nav-btn" onclick="switchTab('sports',this)"><span class="ni">🏆</span>All Sports</button>
+      <button class="nav-btn" onclick="switchTab('nba',this)"><span class="ni">🏀</span>NBA</button>
+      <button class="nav-btn" onclick="switchTab('nfl',this)"><span class="ni">🏈</span>NFL & Super Bowl</button>
+      <button class="nav-btn" onclick="switchTab('mlb',this)"><span class="ni">⚾</span>MLB Baseball</button>
+      <button class="nav-btn" onclick="switchTab('mls',this)"><span class="ni">⚽</span>MLS</button>
+      <button class="nav-btn" onclick="switchTab('ufc',this)"><span class="ni">🥊</span>UFC / MMA</button>
+      <div class="s-label">European Football</div>
+      <button class="nav-btn" onclick="switchTab('epl',this)"><span class="ni">🦁</span>Premier League</button>
+      <button class="nav-btn" onclick="switchTab('laliga',this)"><span class="ni">🇪🇸</span>La Liga</button>
+      <button class="nav-btn" onclick="switchTab('bundesliga',this)"><span class="ni">🦅</span>Bundesliga</button>
+      <button class="nav-btn" onclick="switchTab('seriea',this)"><span class="ni">🇮🇹</span>Serie A</button>
+      <button class="nav-btn" onclick="switchTab('ligue1',this)"><span class="ni">🇫🇷</span>Ligue 1</button>
+      <button class="nav-btn" onclick="switchTab('ucl',this)"><span class="ni">⭐</span>Champions League</button>
+      <div class="s-label">World News</div>
+      <button class="nav-btn" onclick="switchTab('bbc',this)"><span class="ni">📺</span>BBC News</button>
+      <button class="nav-btn" onclick="switchTab('world',this)"><span class="ni">🌍</span>World News</button>
+      <button class="nav-btn" onclick="switchTab('gov',this)"><span class="ni">🏛️</span>US Politics</button>
+      <button class="nav-btn" onclick="switchTab('europe',this)"><span class="ni">🇪🇺</span>European News</button>
+      <button class="nav-btn" onclick="switchTab('forbes',this)"><span class="ni">💼</span>Forbes</button>
+      <button class="nav-btn" onclick="switchTab('fox',this)"><span class="ni">🦊</span>Fox News</button>
+      <div class="nav-div"></div>
+      <button class="nav-btn" onclick="openSwalModal()"><span class="ni">✨</span>SWAL AI</button>
+    </div>
+    <div class="sidebar-footer">
+      <button class="swal-cta" onclick="openSwalModal()">
+        <div class="pulse-dot"></div>✨ Ask SWAL AI Anything
+      </button>
+    </div>
+  </aside>
+
+  <!-- FEED -->
+  <main class="feed">
+    <div class="feed-header">
+      <div class="feed-topbar">
+        <div class="feed-title">
+          <svg width="22" height="22" viewBox="0 0 120 120" fill="none"><defs><linearGradient id="ftg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs><ellipse cx="62" cy="70" rx="26" ry="17" fill="url(#ftg)" opacity=".92"/><circle cx="88" cy="54" r="14" fill="url(#ftg)"/><circle cx="93" cy="51" r="3" fill="white"/><circle cx="94" cy="51" r="1.5" fill="#040408"/><path d="M100 52 L114 49 L103 57 Z" fill="#f59e0b"/><path d="M58 66 Q26 40 8 56 Q28 72 54 74 Z" fill="url(#ftg)" opacity=".82"/><path d="M68 58 Q88 32 108 36 Q97 54 78 66 Z" fill="url(#ftg)" opacity=".72"/></svg>
+          <span id="feedTitle">Linkxus News</span>
+        </div>
+        <div class="topbar-right">
+          <button class="search-btn" onclick="openSearch()">🔍 Search</button>
+          <!-- THEME TOGGLE -->
+          <label class="theme-toggle" title="Toggle dark/light mode">
+            <input type="checkbox" id="themeToggle" onchange="toggleTheme(this)">
+            <div class="toggle-track"><div class="toggle-thumb"></div></div>
+          </label>
+        </div>
+      </div>
+      <div class="tabs-wrap">
+        <button class="tab on" onclick="switchTab('all',this)">All</button>
+        <button class="tab" onclick="switchTab('crypto',this)">₿ Crypto</button>
+        <button class="tab" onclick="switchTab('forex',this)">💱 Forex</button>
+        <button class="tab" onclick="switchTab('stocks',this)">📈 Stocks</button>
+        <button class="tab" onclick="switchTab('music',this)">🎵 Music</button>
+        <button class="tab" onclick="switchTab('hiphop',this)">🎤 Hip-Hop</button>
+        <button class="tab" onclick="switchTab('entertainment',this)">🎬 Entertainment</button>
+        <button class="tab" onclick="switchTab('sports',this)">🏆 Sports</button>
+        <button class="tab" onclick="switchTab('nba',this)">🏀 NBA</button>
+        <button class="tab" onclick="switchTab('epl',this)">🦁 EPL</button>
+        <button class="tab" onclick="switchTab('nfl',this)">🏈 NFL</button>
+        <button class="tab" onclick="switchTab('ufc',this)">🥊 UFC</button>
+        <button class="tab" onclick="switchTab('ai',this)">🤖 AI</button>
+        <button class="tab" onclick="switchTab('tech',this)">💻 Tech</button>
+        <button class="tab" onclick="switchTab('bbc',this)">📺 BBC</button>
+        <button class="tab" onclick="switchTab('world',this)">🌍 World</button>
+        <button class="tab" onclick="switchTab('gov',this)">🏛️ US Gov</button>
+      </div>
+    </div>
+
+    <div class="ticker"><div class="ticker-inner" id="tickerInner"></div></div>
+    <div class="scores-bar" id="scoresBar">
+      <div class="scores-label">Live & Recent Scores</div>
+      <div class="scores-row" id="scoresRow"></div>
+    </div>
+
+    <div class="news-container">
+      <div class="hero-wrap" id="heroWrap">
+        <div class="hero" id="heroCard">
+          <div class="hero-img-wrap" id="heroImgWrap">
+            <div class="hero-img-ph" id="heroImgPh">📰</div>
+            <div class="hero-img-overlay"></div>
+            <div class="img-source-badge" id="heroImgBadge" style="display:none"></div>
+          </div>
+          <div class="hero-body">
+            <div class="hero-meta">
+              <span class="live-badge">BREAKING</span>
+              <span class="hero-src" id="heroSrc">Loading…</span>
+            </div>
+            <div class="hero-title" id="heroTitle">Fetching latest stories…</div>
+            <div class="hero-desc" id="heroDesc">Connecting to live news sources around the world.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-list" id="cardList">
+        <div class="loading-card"><div style="width:80px;height:60px;border-radius:10px;" class="sk"></div><div style="flex:1"><div class="sk" style="height:11px;width:100px;margin-bottom:8px"></div><div class="sk" style="height:15px;width:90%;margin-bottom:6px"></div><div class="sk" style="height:11px;width:75%"></div></div></div>
+        <div class="loading-card"><div style="width:80px;height:60px;border-radius:10px;" class="sk"></div><div style="flex:1"><div class="sk" style="height:11px;width:80px;margin-bottom:8px"></div><div class="sk" style="height:15px;width:85%;margin-bottom:6px"></div><div class="sk" style="height:11px;width:65%"></div></div></div>
+        <div class="loading-card"><div style="width:80px;height:60px;border-radius:10px;" class="sk"></div><div style="flex:1"><div class="sk" style="height:11px;width:110px;margin-bottom:8px"></div><div class="sk" style="height:15px;width:80%;margin-bottom:6px"></div><div class="sk" style="height:11px;width:70%"></div></div></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside class="panel">
+    <div class="widget">
+      <div class="w-ttl">📊 Live Markets</div>
+      <div class="mkt-row"><div><div class="mkt-sym">BTC/USD</div><div class="mkt-name">Bitcoin</div></div><div class="mkt-r"><div class="mkt-p" id="btcP">—</div><div class="mkt-c" id="btcC">—</div></div></div>
+      <div class="mkt-row"><div><div class="mkt-sym">ETH/USD</div><div class="mkt-name">Ethereum</div></div><div class="mkt-r"><div class="mkt-p" id="ethP">—</div><div class="mkt-c" id="ethC">—</div></div></div>
+      <div class="mkt-row"><div><div class="mkt-sym">SOL/USD</div><div class="mkt-name">Solana</div></div><div class="mkt-r"><div class="mkt-p" id="solP">—</div><div class="mkt-c" id="solC">—</div></div></div>
+      <div class="mkt-row"><div><div class="mkt-sym">EUR/USD</div><div class="mkt-name">Euro</div></div><div class="mkt-r"><div class="mkt-p" id="eurP">—</div><div class="mkt-c" id="eurC">—</div></div></div>
+      <div class="mkt-row"><div><div class="mkt-sym">GBP/USD</div><div class="mkt-name">Pound</div></div><div class="mkt-r"><div class="mkt-p" id="gbpP">—</div><div class="mkt-c" id="gbpC">—</div></div></div>
+      <div class="mkt-row"><div><div class="mkt-sym">USD/NGN</div><div class="mkt-name">Naira</div></div><div class="mkt-r"><div class="mkt-p" id="ngnP">—</div><div class="mkt-c" id="ngnC">—</div></div></div>
+    </div>
+    <div class="swal-widget">
+      <div class="sw-head">
+        <div class="sw-av">✨</div>
+        <div><div class="sw-name">SWAL AI</div><div class="sw-sub">by AdesinaEazeAI · Live Intelligence</div></div>
+      </div>
+      <div class="sw-chat" id="swChat">Hi! I'm SWAL AI ✨ Ask me anything — live crypto prices, sports results, music charts, breaking news. I search the web in real-time.</div>
+      <div class="sw-row">
+        <input class="sw-inp" id="swInp" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')swSend()">
+        <button class="sw-send" onclick="swSend()">➤</button>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="w-ttl">🔥 Trending</div>
+      <div class="tr-item"><div class="tr-num">1 · Trending</div><div class="tr-tag">#Bitcoin</div><div class="tr-cnt">14.2K posts</div></div>
+      <div class="tr-item"><div class="tr-num">2 · Music</div><div class="tr-tag">#KendrickLamar</div><div class="tr-cnt">11.8K posts</div></div>
+      <div class="tr-item"><div class="tr-num">3 · Sports</div><div class="tr-tag">#NBAPlayoffs</div><div class="tr-cnt">9.4K posts</div></div>
+      <div class="tr-item"><div class="tr-num">4 · Football</div><div class="tr-tag">#PremierLeague</div><div class="tr-cnt">8.1K posts</div></div>
+      <div class="tr-item"><div class="tr-num">5 · Tech</div><div class="tr-tag">#AINews</div><div class="tr-cnt">6.7K posts</div></div>
+      <div class="tr-item"><div class="tr-num">6 · Music</div><div class="tr-tag">#Spotify</div><div class="tr-cnt">5.3K posts</div></div>
+      <div class="tr-item"><div class="tr-num">7 · Sports</div><div class="tr-tag">#UFC316</div><div class="tr-cnt">4.8K posts</div></div>
+    </div>
+  </aside>
+</div>
+
+<!-- MOBILE NAV -->
+<nav class="mob-nav">
+  <button class="mob-btn on" onclick="switchTab('all',this)"><span>🏠</span>Home</button>
+  <button class="mob-btn" onclick="switchTab('sports',this)"><span>🏆</span>Sports</button>
+  <button class="mob-btn" onclick="openSearch()"><span>🔍</span>Search</button>
+  <button class="mob-btn" onclick="openSwalModal()"><span>✨</span>SWAL</button>
+  <button class="mob-btn" onclick="toggleTheme(null,true)"><span id="mobThemeIcon">☀️</span>Theme</button>
+</nav>
+
+<!-- ARTICLE READER -->
+<div class="reader-overlay" id="readerOverlay">
+  <div class="reader-backdrop" onclick="closeReader()"></div>
+  <div class="reader-panel" id="readerPanel">
+    <div class="reader-header">
+      <button class="reader-back" onclick="closeReader()">←</button>
+      <div class="reader-header-info">
+        <div class="reader-source" id="rSource">—</div>
+        <div class="reader-time" id="rTime">—</div>
+      </div>
+      <div class="reader-actions">
+        <button class="r-act" onclick="copyLink()">🔗 Share</button>
+        <a class="r-act primary" id="rExtLink" href="#" target="_blank" rel="noopener">Read Original ↗</a>
+      </div>
+    </div>
+    <div class="reader-body" id="readerBody">
+      <div class="reader-hero-img-wrap" id="readerImgWrap">
+        <div class="reader-hero-ph" id="readerImgPh">📰</div>
+      </div>
+      <div class="reader-content">
+        <div class="reader-cat-row"><span class="reader-cat-badge" id="rCatBadge">NEWS</span></div>
+        <div class="reader-title" id="rTitle">Loading…</div>
+        <div class="reader-byline" id="rByline"><strong id="rSource2">—</strong> · <span id="rTime2">—</span></div>
+        <div class="reader-text" id="rText">Loading story…</div>
+        <div class="reader-tags" id="rTags"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="swal-reader-btn" id="swalFloatBtn" onclick="openReaderSwal()" title="Ask SWAL AI">✨</button>
+
+<div class="swal-reader-panel" id="swalReaderPanel">
+  <div class="srp-head">
+    <div class="srp-title">✨ SWAL AI <span style="font-size:11px;color:var(--text3);font-weight:400">— discussing this article</span></div>
+    <button class="srp-close" onclick="closeReaderSwal()">✕</button>
+  </div>
+  <div class="srp-response" id="srpResponse">Ask me anything about this article — I'll explain, fact-check, or give more context.</div>
+  <div class="srp-inp-row">
+    <input class="srp-inp" id="srpInp" placeholder="Summarise this… What does this mean?…" onkeydown="if(event.key==='Enter')srpSend()">
+    <button class="srp-send" onclick="srpSend()">➤</button>
+  </div>
+</div>
+
+<!-- SWAL FULL MODAL -->
+<div class="swal-modal" id="swalModal">
+  <div class="sm-head">
+    <button class="sm-back" onclick="closeSwalModal()">←</button>
+    <div class="sw-av" style="width:36px;height:36px;background:linear-gradient(135deg,#8b5cf6,#4f1db8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">✨</div>
+    <div class="sm-info"><div class="sm-name">SWAL AI</div><div class="sm-status">● Online · by AdesinaEazeAI · Powered by Groq LLaMA 3.3</div></div>
+  </div>
+  <div class="sm-msgs" id="smMsgs">
+    <div class="msg ai">
+      <div class="msg-bbl">Hello! I'm <strong>SWAL AI</strong> ✨ — built by <strong>AdesinaEazeAI</strong>.<br><br>I search the web in real time. Ask me about:<br>• <strong>Live crypto prices</strong> — BTC, ETH, SOL, NGN rates<br>• <strong>Music</strong> — rap, Spotify charts, artist bios, concerts<br>• <strong>Sports</strong> — NBA, EPL, NFL, UFC, MLB scores & transfers<br>• <strong>Tech news</strong> — AI, Apple, Google, Microsoft, Meta<br>• <strong>World news</strong> — breaking stories, politics, economy<br><br>What would you like to know?</div>
+      <div class="msg-t">just now</div>
+    </div>
+  </div>
+  <div class="sm-inp-row">
+    <input type="text" id="smInp" placeholder="Ask SWAL AI anything…" onkeydown="if(event.key==='Enter')smSend()">
+    <button onclick="smSend()">➤</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// THEME TOGGLE
+// ══════════════════════════════════════════════
+function toggleTheme(checkbox, fromMobile = false) {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('lx-theme', newTheme);
+  // sync checkbox
+  const cb = document.getElementById('themeToggle');
+  if (cb) cb.checked = newTheme === 'light';
+  // sync mobile icon
+  const mobIcon = document.getElementById('mobThemeIcon');
+  if (mobIcon) mobIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+  showToast(newTheme === 'light' ? '☀️ Light mode on' : '🌙 Dark mode on');
+}
+
+// restore saved theme
+(function() {
+  const saved = localStorage.getItem('lx-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', saved);
+  if (saved === 'light') {
+    window.addEventListener('DOMContentLoaded', () => {
+      const cb = document.getElementById('themeToggle');
+      if (cb) cb.checked = true;
+      const mobIcon = document.getElementById('mobThemeIcon');
+      if (mobIcon) mobIcon.textContent = '🌙';
+    });
+  }
+})();
+
+// ══════════════════════════════════════════════
+// SPLASH
+// ══════════════════════════════════════════════
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('splash').classList.add('out');
+    document.getElementById('appShell').classList.remove('hidden');
+    document.getElementById('appShell').classList.add('visible');
+    setTimeout(() => document.getElementById('splash').style.display = 'none', 900);
+  }, 3400);
+});
+
+// ══════════════════════════════════════════════
+// IMAGE LOADING ENGINE
+// Multi-strategy: RSS img → Open Graph scrape → Unsplash topic fallback
+// ══════════════════════════════════════════════
+const IMG_PROXY = 'https://images.weserv.nl/?url=';
+const OG_PROXY  = 'https://api.allorigins.win/get?url=';
+
+// Category → Unsplash keyword for rich fallback
+const CAT_UNSPLASH = {
+  crypto:'bitcoin+cryptocurrency+blockchain',
+  forex:'currency+trading+finance',
+  stocks:'stock+market+trading+wall+street',
+  economy:'economy+business+finance',
+  ai:'artificial+intelligence+robot+technology',
+  tech:'technology+innovation+computer',
+  it:'office+corporate+technology',
+  microsoft:'microsoft+windows+software',
+  amazon:'amazon+delivery+logistics',
+  google:'google+search+technology',
+  apple:'apple+iphone+macbook',
+  meta:'facebook+social+media',
+  entertainment:'cinema+hollywood+entertainment',
+  music:'music+concert+stage+spotlight',
+  hiphop:'hip+hop+rap+concert+music',
+  concerts:'concert+crowd+festival+stage',
+  spotify:'headphones+music+streaming',
+  sports:'sports+stadium+crowd+action',
+  nba:'basketball+nba+court+game',
+  nfl:'american+football+nfl+stadium',
+  mlb:'baseball+stadium+game',
+  mls:'soccer+football+stadium+mls',
+  ufc:'martial+arts+fighting+ring',
+  epl:'premier+league+soccer+football+stadium',
+  laliga:'soccer+football+spain+la+liga',
+  bundesliga:'soccer+football+germany',
+  seriea:'soccer+football+italy',
+  ligue1:'soccer+football+france+paris',
+  ucl:'champions+league+soccer+football+trophy',
+  bbc:'news+journalism+broadcast+television',
+  world:'world+globe+news+breaking',
+  gov:'washington+dc+capitol+politics',
+  europe:'europe+city+european+union',
+  forbes:'business+success+entrepreneur',
+  fox:'news+broadcast+media',
+  default:'world+news+breaking+headline',
+};
+
+// Reliable Unsplash photos by category (direct IDs avoid random variation)
+const UNSPLASH_IDS = {
+  crypto:   ['photo-1640340434855-6084b1f4901c','photo-1621504450181-5d356f61d307','photo-1614854262318-831574f15f1f'],
+  forex:    ['photo-1611974789855-9c2a0a7236a3','photo-1579621970588-a35d0e7ab9b6','photo-1543286386-713bdd548da4'],
+  stocks:   ['photo-1611974789855-9c2a0a7236a3','photo-1611974789855-9c2a0a7236a3','photo-1554260570-9b89d7a5e8b7'],
+  economy:  ['photo-1579621970795-87facc2f976d','photo-1521790797524-b2497295b8a0','photo-1553729459-efe14ef6055d'],
+  ai:       ['photo-1677442135703-1787eea5ce01','photo-1620712943543-bcc4688e7485','photo-1667372393119-3d4c48d07fc9'],
+  tech:     ['photo-1518770660439-4636190af475','photo-1517336714731-489689fd1ca8','photo-1461749280684-dccba630e2f6'],
+  music:    ['photo-1493225457124-a3eb161ffa5f','photo-1501386761578-eac5c94b800a','photo-1459749411175-04bf5292ceea'],
+  hiphop:   ['photo-1571609860754-01ffd7f38a28','photo-1520872024865-3ff2b66a5319','photo-1547036967-23d11aacaee0'],
+  sports:   ['photo-1461896836934-ffe607ba8211','photo-1574629810360-7efbbe195018','photo-1504016798967-7a534cdac719'],
+  nba:      ['photo-1546519638-68e109498ffc','photo-1504450758481-7338eba7524a','photo-1515523110800-9415d13b84a8'],
+  nfl:      ['photo-1551958219-acbc595d3316','photo-1566577739112-5180d4bf9390','photo-1570498839593-e565b39455fc'],
+  epl:      ['photo-1574629810360-7efbbe195018','photo-1489944440615-453fc2b6a9a9','photo-1518091043644-c1d4457512c6'],
+  ucl:      ['photo-1489944440615-453fc2b6a9a9','photo-1574629810360-7efbbe195018','photo-1540747913346-19212a4b32f6'],
+  bbc:      ['photo-1504711434969-e33886168f5c','photo-1478720568477-152d9b164e26','photo-1504868584819-f8e8b4b6d7e3'],
+  world:    ['photo-1504711434969-e33886168f5c','photo-1499159058454-75067059248a','photo-1495020689067-958852a7765e'],
+  gov:      ['photo-1551029506-0807df4e2031','photo-1565711561500-49678a10a63f','photo-1524492412937-b28074a5d7da'],
+  entertainment:['photo-1489599849927-2ee91cede3ba','photo-1598899134739-24c46f58b8c0','photo-1486693128850-a77436e5d46c'],
+  default:  ['photo-1504711434969-e33886168f5c','photo-1504868584819-f8e8b4b6d7e3','photo-1495020689067-958852a7765e'],
+};
+
+function getUnsplashFallback(cat, w=400, h=260) {
+  const ids = UNSPLASH_IDS[cat] || UNSPLASH_IDS.default;
+  const id = ids[Math.floor(Math.random() * ids.length)];
+  return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&h=${h}&q=75`;
+}
+
+// Try to proxy-load an image URL to bypass CORS
+function proxyImageUrl(rawUrl) {
+  if (!rawUrl) return null;
+  try {
+    const clean = rawUrl.trim();
+    if (!clean.startsWith('http')) return null;
+    return IMG_PROXY + encodeURIComponent(clean);
+  } catch(e) { return null; }
+}
+
+// Extract image from RSS item content fields
+function extractImgFromRSS(rawDesc, enclosureUrl, mediaUrl) {
+  if (enclosureUrl && /\.(jpg|jpeg|png|webp|gif)/i.test(enclosureUrl)) return enclosureUrl;
+  if (mediaUrl && /\.(jpg|jpeg|png|webp|gif)/i.test(mediaUrl)) return mediaUrl;
+  if (rawDesc) {
+    const m = rawDesc.match(/src=["']([^"']+\.(?:jpg|jpeg|png|webp)(?:\?[^"']*)?)/i);
+    if (m && m[1].startsWith('http')) return m[1];
+    const m2 = rawDesc.match(/url=["']?([^"'\s>]+\.(?:jpg|jpeg|png|webp))/i);
+    if (m2 && m2[1].startsWith('http')) return m2[1];
+  }
+  return null;
+}
+
+// Load image with fallback chain: proxied RSS img → Unsplash
+function loadImageWithFallback(imgEl, phEl, rssImg, cat, w=400, h=260) {
+  const proxied = proxyImageUrl(rssImg);
+
+  function tryUnsplash() {
+    const fb = getUnsplashFallback(cat, w, h);
+    imgEl.src = fb;
+    imgEl.onload = () => { imgEl.classList.add('loaded'); if (phEl) phEl.classList.add('hidden'); if (imgEl.closest('.nc-img')) imgEl.closest('.nc-img').classList.remove('loading'); };
+    imgEl.onerror = () => { /* keep placeholder */ };
+  }
+
+  if (proxied) {
+    imgEl.src = proxied;
+    imgEl.onload = () => { imgEl.classList.add('loaded'); if (phEl) phEl.classList.add('hidden'); if (imgEl.closest('.nc-img')) imgEl.closest('.nc-img').classList.remove('loading'); };
+    imgEl.onerror = () => tryUnsplash();
+  } else {
+    tryUnsplash();
+  }
+}
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let allArticles = [];
+let currentTab = 'all';
+let currentArticle = null;
+
+const CAT_MAP = {
+  all:null, crypto:'crypto', forex:'forex', stocks:'stocks', economy:'economy',
+  ai:'ai', tech:'tech', it:'it', microsoft:'microsoft', amazon:'amazon', google:'google', apple:'apple', meta:'meta',
+  entertainment:'entertainment', music:'music', hiphop:'hiphop', concerts:'concerts', spotify:'spotify',
+  sports:['sports','nba','nfl','mlb','mls','ufc'],
+  nba:'nba', nfl:'nfl', mlb:'mlb', mls:'mls', ufc:'ufc',
+  epl:'epl', laliga:'laliga', bundesliga:'bundesliga', seriea:'seriea', ligue1:'ligue1', ucl:'ucl',
+  bbc:'bbc', world:'world', gov:'gov', europe:'europe', forbes:'forbes', fox:'fox',
+};
+const SPORTS_TABS = ['sports','nba','nfl','mlb','mls','ufc','epl','laliga','bundesliga','seriea','ligue1','ucl'];
+const TAB_TITLES = {
+  all:'Linkxus News', crypto:'₿ Crypto Markets', forex:'💱 Foreign Exchange',
+  stocks:'📈 World Stocks', economy:'💹 Economy', ai:'🤖 AI News', tech:'💻 Technology',
+  it:'🏢 IT Companies', microsoft:'🪟 Microsoft', amazon:'📦 Amazon', google:'🔵 Google', apple:'🍎 Apple', meta:'🌐 Meta',
+  entertainment:'🎬 Entertainment', music:'🎵 Music', hiphop:'🎤 Hip-Hop & Rap',
+  concerts:'🎸 Concerts & Tours', spotify:'💚 Spotify & Streaming',
+  sports:'🏆 All Sports', nba:'🏀 NBA', nfl:'🏈 NFL & Super Bowl', mlb:'⚾ MLB Baseball',
+  mls:'⚽ MLS', ufc:'🥊 UFC / MMA',
+  epl:'🦁 Premier League', laliga:'🇪🇸 La Liga', bundesliga:'🦅 Bundesliga',
+  seriea:'🇮🇹 Serie A', ligue1:'🇫🇷 Ligue 1', ucl:'⭐ Champions League',
+  bbc:'📺 BBC News', world:'🌍 World News', gov:'🏛️ US Politics',
+  europe:'🇪🇺 European News', forbes:'💼 Forbes', fox:'🦊 Fox News',
+};
+const CAT_STYLE = {
+  crypto:{k:'cat-crypto',l:'CRYPTO'}, forex:{k:'cat-forex',l:'FOREX'},
+  stocks:{k:'cat-stocks',l:'STOCKS'}, economy:{k:'cat-economy',l:'ECONOMY'},
+  ai:{k:'cat-ai',l:'AI'}, tech:{k:'cat-tech',l:'TECH'}, it:{k:'cat-it',l:'IT'},
+  microsoft:{k:'cat-it',l:'MSFT'}, amazon:{k:'cat-it',l:'AWS'}, google:{k:'cat-it',l:'GOOGLE'},
+  apple:{k:'cat-it',l:'APPLE'}, meta:{k:'cat-it',l:'META'},
+  entertainment:{k:'cat-entertainment',l:'ENTERTAINMENT'}, music:{k:'cat-music',l:'MUSIC'},
+  hiphop:{k:'cat-music',l:'HIP-HOP'}, concerts:{k:'cat-music',l:'CONCERTS'}, spotify:{k:'cat-music',l:'SPOTIFY'},
+  sports:{k:'cat-sports',l:'SPORTS'}, nba:{k:'cat-nba',l:'NBA'}, nfl:{k:'cat-nfl',l:'NFL'},
+  mlb:{k:'cat-mlb',l:'MLB'}, mls:{k:'cat-mls',l:'MLS'}, ufc:{k:'cat-ufc',l:'UFC'},
+  epl:{k:'cat-epl',l:'EPL'}, laliga:{k:'cat-euro',l:'LA LIGA'}, bundesliga:{k:'cat-euro',l:'BUNDESLIGA'},
+  seriea:{k:'cat-euro',l:'SERIE A'}, ligue1:{k:'cat-euro',l:'LIGUE 1'}, ucl:{k:'cat-euro',l:'UCL'},
+  bbc:{k:'cat-bbc',l:'BBC'}, world:{k:'cat-world',l:'WORLD'}, gov:{k:'cat-gov',l:'US GOV'},
+  europe:{k:'cat-euro',l:'EUROPE'}, forbes:{k:'cat-stocks',l:'FORBES'}, fox:{k:'cat-bbc',l:'FOX'},
+};
+const SCORES_DATA = {
+  sports:[{l:'NBA',t:'Thunder vs Celtics',s:'112-105',st:'Game 7 Final'},{l:'UFC 316',t:'Jones vs Aspinall',s:'TKO R3',st:'Result'},{l:'NFL',t:'Chiefs vs Eagles',s:'31-24',st:'SB LX'}],
+  nba:[{l:'NBA',t:'Thunder vs Celtics',s:'112-105',st:'G7 Final'},{l:'NBA',t:'Lakers vs Warriors',s:'🔴 LIVE',st:'Q3 · 74-68'}],
+  nfl:[{l:'NFL',t:'Chiefs vs Eagles',s:'31-24',st:'Super Bowl LX'},{l:'NFL Draft',t:'Pick #1 Cowboys',s:'QB Selected',st:'Round 1'}],
+  mlb:[{l:'MLB',t:'Yankees vs Red Sox',s:'7-3',st:'Final'},{l:'MLB',t:'Dodgers vs Giants',s:'4-2',st:'Final'}],
+  ufc:[{l:'UFC 316',t:'Jones vs Aspinall',s:'TKO R3',st:'Result'},{l:'UFC 316',t:'Poirier vs Gaethje',s:'Decision',st:'Result'}],
+  mls:[{l:'MLS',t:'Inter Miami vs Atlanta',s:'4-1',st:'Final'}],
+  epl:[{l:'EPL',t:'Arsenal vs Everton',s:'4-0',st:'FT'},{l:'EPL',t:'Man City vs Chelsea',s:'1-1',st:'FT'}],
+  laliga:[{l:'La Liga',t:'Barcelona vs Atletico',s:'3-0',st:'FT'},{l:'La Liga',t:'Real vs Sevilla',s:'4-1',st:'FT'}],
+  bundesliga:[{l:'Bundesliga',t:'Leverkusen vs Dortmund',s:'2-0',st:'FT'}],
+  seriea:[{l:'Serie A',t:'Inter vs AC Milan',s:'2-2',st:'FT'}],
+  ligue1:[{l:'Ligue 1',t:'PSG vs Lyon',s:'3-0',st:'FT'}],
+  ucl:[{l:'UCL Final',t:'Real Madrid vs PSG',s:'3-2',st:'Wembley'}],
+};
+
+function getCatEmoji(cat) {
+  const em={crypto:'₿',forex:'💱',stocks:'📈',economy:'💹',ai:'🤖',tech:'💻',it:'🏢',microsoft:'🪟',amazon:'📦',google:'🔵',apple:'🍎',meta:'🌐',entertainment:'🎬',music:'🎵',hiphop:'🎤',concerts:'🎸',spotify:'💚',sports:'🏆',nba:'🏀',nfl:'🏈',mlb:'⚾',mls:'⚽',ufc:'🥊',epl:'⚽',laliga:'⚽',bundesliga:'⚽',seriea:'⚽',ligue1:'⚽',ucl:'⭐',bbc:'📺',world:'🌍',gov:'🏛️',europe:'🇪🇺',forbes:'💼',fox:'🦊'};
+  return em[cat]||'📰';
+}
+
+function ago(d) {
+  const s=(Date.now()-d)/1000;
+  if(s<60) return `${Math.floor(s)}s ago`;
+  if(s<3600) return `${Math.floor(s/60)}m ago`;
+  if(s<86400) return `${Math.floor(s/3600)}h ago`;
+  return `${Math.floor(s/86400)}d ago`;
+}
+
+// ══════════════════════════════════════════════
+// RSS SOURCES
+// ══════════════════════════════════════════════
+const PROXIES = [
+  u=>`https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
+  u=>`https://corsproxy.io/?${encodeURIComponent(u)}`,
+];
+
+const SOURCES = [
+  {n:'CoinDesk',c:'#f59e0b',cat:'crypto',u:'https://www.coindesk.com/arc/outboundfeeds/rss/'},
+  {n:'CoinTelegraph',c:'#e91e63',cat:'crypto',u:'https://cointelegraph.com/rss'},
+  {n:'Decrypt',c:'#ff6b35',cat:'crypto',u:'https://decrypt.co/feed'},
+  {n:'ForexLive',c:'#10b981',cat:'forex',u:'https://www.forexlive.com/feed/news'},
+  {n:'Forbes Biz',c:'#d97706',cat:'stocks',u:'https://www.forbes.com/business/feed/'},
+  {n:'Reuters',c:'#ea580c',cat:'world',u:'https://feeds.reuters.com/reuters/topNews'},
+  {n:'BBC News',c:'#dc2626',cat:'bbc',u:'https://feeds.bbci.co.uk/news/rss.xml'},
+  {n:'BBC Business',c:'#dc2626',cat:'economy',u:'https://feeds.bbci.co.uk/news/business/rss.xml'},
+  {n:'BBC World',c:'#dc2626',cat:'world',u:'https://feeds.bbci.co.uk/news/world/rss.xml'},
+  {n:'BBC Sport',c:'#dc2626',cat:'sports',u:'https://feeds.bbci.co.uk/sport/rss.xml'},
+  {n:'BBC Football',c:'#dc2626',cat:'epl',u:'https://feeds.bbci.co.uk/sport/football/rss.xml'},
+  {n:'TechCrunch',c:'#00e5ff',cat:'tech',u:'https://techcrunch.com/feed/'},
+  {n:'The Verge',c:'#ef4444',cat:'tech',u:'https://www.theverge.com/rss/index.xml'},
+  {n:'Ars Technica',c:'#f97316',cat:'tech',u:'https://feeds.arstechnica.com/arstechnica/index'},
+  {n:'MIT Tech Review',c:'#8b5cf6',cat:'ai',u:'https://www.technologyreview.com/feed/'},
+  {n:'VentureBeat',c:'#a78bfa',cat:'ai',u:'https://feeds.feedburner.com/venturebeat/SZYF'},
+  {n:'ESPN',c:'#cc0000',cat:'sports',u:'https://www.espn.com/espn/rss/news'},
+  {n:'ESPN NBA',c:'#c8102e',cat:'nba',u:'https://www.espn.com/espn/rss/nba/news'},
+  {n:'ESPN NFL',c:'#
