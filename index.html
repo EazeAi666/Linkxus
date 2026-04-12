@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#07070f">
+<title>Linkxus - Live News Sports Crypto Entertainment</title>
+<link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Linkxus%22%2C%22short_name%22%3A%22Linkxus%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%2307070f%22%2C%22theme_color%22%3A%22%2300e5ff%22%7D">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07070f; --s1:#0e0e1c; --s2:#141428; --bd:#1a1a2e; --bd2:#242440;
+  --ac:#00e5ff; --pu:#8b5cf6; --gn:#10b981; --rd:#ef4444; --gd:#f59e0b;
+  --tx:#eff0f8; --t2:#9090b0; --t3:#505068;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--pu);border-radius:2px;}
+
+/* SPLASH */
+#sp{position:fixed;inset:0;z-index:9999;background:radial-gradient(ellipse 80% 60% at 50% 40%,#0a0a20,#030308);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s,transform .8s;}
+#sp.out{opacity:0;transform:scale(1.06);pointer-events:none;}
+.sp-bird{width:110px;height:110px;animation:bF 3s ease-in-out infinite,bI 1s ease forwards;opacity:0;}
+@keyframes bI{to{opacity:1;}}
+@keyframes bF{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-16px) rotate(4deg);}}
+.sp-r1{width:160px;height:160px;border:1px solid rgba(0,229,255,.14);border-radius:50%;position:absolute;animation:rP 2.5s ease-in-out infinite;}
+.sp-r2{width:220px;height:220px;border:1px solid rgba(139,92,246,.1);border-radius:50%;position:absolute;animation:rP 2.5s 1s ease-in-out infinite;}
+@keyframes rP{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.08);opacity:.4;}}
+.sp-nm{font-family:'Playfair Display',serif;font-weight:900;font-size:58px;letter-spacing:-3px;margin-top:16px;background:linear-gradient(135deg,#fff 0%,#00e5ff 45%,#8b5cf6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:fU .9s .4s ease both;}
+.sp-tg{font-size:11px;color:var(--t3);letter-spacing:5px;text-transform:uppercase;margin-top:8px;animation:fU .9s .7s ease both;}
+.sp-cr{margin-top:28px;font-size:11px;color:rgba(255,255,255,.2);letter-spacing:2px;animation:fU .9s 1s ease both;}
+.sp-cr strong{color:rgba(0,229,255,.5);}
+.sp-bar{width:160px;height:2px;background:var(--bd);border-radius:2px;margin-top:20px;overflow:hidden;animation:fU .6s 1.2s ease both;opacity:0;}
+.sp-fl{height:100%;width:0%;background:linear-gradient(90deg,var(--ac),var(--pu));border-radius:2px;animation:fB 2.4s 1.3s ease forwards;}
+@keyframes fB{0%{width:0%;}60%{width:70%;}100%{width:100%;}}
+@keyframes fU{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* LAYOUT */
+.app{display:grid;grid-template-columns:255px 1fr 292px;max-width:1320px;margin:0 auto;min-height:100vh;}
+.app.hidden{opacity:0;}
+.app.visible{opacity:1;transition:opacity .6s .1s;}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:0;height:100vh;border-right:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden;}
+.sb-in{flex:1;overflow-y:auto;padding:18px 13px 12px;display:flex;flex-direction:column;gap:2px;}
+.sb-in::-webkit-scrollbar{display:none;}
+.logo{display:flex;align-items:center;gap:9px;margin-bottom:14px;padding:0 4px;}
+.logo-b{width:30px;height:30px;flex-shrink:0;}
+.logo-w{font-family:'Playfair Display',serif;font-weight:900;font-size:19px;letter-spacing:-1px;}
+.logo-w em{font-style:normal;background:linear-gradient(135deg,var(--ac),var(--pu));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.sb-s{display:flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--bd);border-radius:22px;padding:8px 13px;margin-bottom:10px;cursor:pointer;transition:border-color .2s;}
+.sb-s:hover{border-color:var(--ac);}
+.s-lbl{font-size:9px;font-weight:700;letter-spacing:2.5px;color:var(--t3);padding:8px 8px 3px;text-transform:uppercase;}
+.nb{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:9px;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--t2);border:none;background:none;width:100%;text-align:left;font-family:'DM Sans',sans-serif;transition:all .15s;}
+.nb:hover{background:var(--s2);color:var(--tx);}
+.nb.on{background:var(--s2);color:var(--ac);border-left:2px solid var(--ac);padding-left:7px;}
+.ni{font-size:14px;width:18px;text-align:center;flex-shrink:0;}
+.nd{height:1px;background:var(--bd);margin:7px 0;}
+.sb-f{padding:13px;border-top:1px solid var(--bd);}
+.s-cta{background:linear-gradient(135deg,#8b5cf6,#4f1db8);border:none;border-radius:11px;padding:11px 14px;color:#fff;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:9px;width:100%;box-shadow:0 4px 18px rgba(139,92,246,.28);transition:transform .2s,box-shadow .2s;}
+.s-cta:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(139,92,246,.5);}
+.s-cta.ok{background:linear-gradient(135deg,#059669,#047857);}
+.p-dot{width:6px;height:6px;background:var(--gn);border-radius:50%;animation:pu 1.5s infinite;flex-shrink:0;}
+@keyframes pu{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(1.6);}}
+
+/* FEED */
+.feed{border-right:1px solid var(--bd);min-height:100vh;display:flex;flex-direction:column;}
+.f-hdr{position:sticky;top:0;background:rgba(7,7,15,.93);backdrop-filter:blur(24px);border-bottom:1px solid var(--bd);z-index:20;}
+.f-top{display:flex;align-items:center;justify-content:space-between;padding:13px 17px 0;min-height:52px;}
+.f-ttl{font-family:'Playfair Display',serif;font-size:19px;font-weight:800;display:flex;align-items:center;gap:7px;}
+.s-btn{background:var(--s2);border:1px solid var(--bd);border-radius:18px;padding:6px 13px;font-size:11px;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.s-btn:hover{border-color:var(--ac);color:var(--tx);}
+.tabs{overflow-x:auto;display:flex;padding:9px 17px 0;gap:1px;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:9px 14px;font-size:12.5px;font-weight:700;color:var(--t3);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;}
+.tab:hover{color:var(--tx);}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac);}
+
+/* TICKER */
+.tkr{overflow:hidden;background:var(--s1);border-bottom:1px solid var(--bd);padding:9px 0;}
+.tkr-in{display:flex;gap:38px;animation:scr 80s linear infinite;width:max-content;}
+@keyframes scr{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.t-it{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;flex-shrink:0;}
+.t-sy{color:var(--t3);}
+.up{color:var(--gn);}
+.dn{color:var(--rd);}
+
+/* SCORES */
+.sc-bar{display:none;padding:9px 17px;background:var(--s1);border-bottom:1px solid var(--bd);}
+.sc-bar.show{display:block;}
+.sc-lbl{font-size:9px;font-weight:700;color:var(--rd);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;display:flex;align-items:center;gap:5px;}
+.sc-lbl::before{content:'';width:5px;height:5px;background:var(--rd);border-radius:50%;animation:pu 1s infinite;}
+.sc-row{display:flex;gap:7px;overflow-x:auto;}
+.sc-row::-webkit-scrollbar{display:none;}
+.sc-c{background:var(--s2);border:1px solid var(--bd2);border-radius:9px;padding:7px 11px;flex-shrink:0;min-width:120px;}
+.sc-l{font-size:8px;color:var(--t3);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;}
+.sc-m{font-size:11.5px;font-weight:600;line-height:1.3;}
+.sc-s{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--ac);margin-top:2px;}
+.sc-st{font-size:8px;color:var(--gn);font-weight:600;}
+
+/* HERO */
+.h-wrap{padding:14px 17px 0;}
+.hero{background:var(--s2);border:1px solid var(--bd2);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .2s;}
+.hero:hover{transform:translateY(-2px);}
+.h-img{width:100%;height:230px;object-fit:cover;display:block;}
+.h-ph{width:100%;height:230px;background:linear-gradient(135deg,#0d0d22,#1a0a2e);display:flex;align-items:center;justify-content:center;font-size:64px;}
+.h-body{padding:14px;}
+.h-meta{display:flex;align-items:center;gap:7px;margin-bottom:7px;}
+.l-bdg{background:var(--rd);color:#fff;font-size:8px;font-weight:800;letter-spacing:1.5px;padding:2px 6px;border-radius:4px;text-transform:uppercase;animation:blk 1s step-end infinite;}
+@keyframes blk{0%,100%{opacity:1;}50%{opacity:.3;}}
+.h-src{font-size:10.5px;color:var(--t3);font-weight:600;}
+.h-ttl{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;line-height:1.32;margin-bottom:8px;}
+.h-dsc{font-size:13.5px;color:var(--t2);line-height:1.65;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* CARD LIST */
+.c-list{padding:10px 17px;display:flex;flex-direction:column;}
+.n-card{display:flex;gap:11px;padding:13px 0;border-bottom:1px solid var(--bd);cursor:pointer;transition:background .15s;}
+.n-card:hover{background:rgba(255,255,255,.018);}
+.n-card:hover .n-ttl{color:var(--ac);}
+.n-th{width:92px;height:72px;border-radius:12px;flex-shrink:0;background:var(--s2);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;}
+.n-th img{width:100%;height:100%;object-fit:cover;}
+.n-bd{flex:1;min-width:0;}
+.n-meta{display:flex;align-items:center;gap:5px;margin-bottom:4px;flex-wrap:wrap;}
+.n-src{font-size:11.5px;font-weight:700;color:var(--t3);}
+.n-cat{font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 7px;border-radius:4px;}
+.n-tm{font-size:10.5px;color:var(--t3);font-family:'JetBrains Mono',monospace;margin-left:auto;flex-shrink:0;}
+.n-ttl{font-size:15px;font-weight:700;line-height:1.38;margin-bottom:5px;transition:color .15s;}
+.n-dsc{font-size:12.5px;color:var(--t2);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.n-acts{display:flex;align-items:center;gap:9px;margin-top:7px;}
+.n-act{background:none;border:none;font-size:12px;color:var(--t3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .2s;padding:2px 0;}
+.n-act:hover{color:var(--ac);}
+
+/* CATEGORY COLORS */
+.cc{background:rgba(245,158,11,.12);color:#f59e0b;}
+.cf{background:rgba(16,185,129,.1);color:#10b981;}
+.cs{background:rgba(52,211,153,.1);color:#6ee7b7;}
+.ce{background:rgba(249,115,22,.1);color:#f97316;}
+.cai{background:rgba(139,92,246,.15);color:#a78bfa;}
+.ct{background:rgba(0,229,255,.1);color:#00e5ff;}
+.cit{background:rgba(0,229,255,.1);color:#67e8f9;}
+.csp{background:rgba(239,68,68,.12);color:#f87171;}
+.cnba{background:rgba(200,16,46,.12);color:#f97316;}
+.cnfl{background:rgba(1,51,105,.2);color:#60a5fa;}
+.cmls{background:rgba(0,144,168,.15);color:#22d3ee;}
+.cufc{background:rgba(200,0,0,.12);color:#f87171;}
+.cepl{background:rgba(60,88,152,.15);color:#818cf8;}
+.ceur{background:rgba(0,51,153,.12);color:#a5b4fc;}
+.cmu{background:rgba(236,72,153,.12);color:#f472b6;}
+.cent{background:rgba(236,72,153,.1);color:#ec4899;}
+.cw{background:rgba(16,185,129,.08);color:#34d399;}
+.cbb{background:rgba(187,25,25,.12);color:#fca5a5;}
+.cgv{background:rgba(74,134,200,.12);color:#7eb3e8;}
+
+/* LOADING */
+.l-card{padding:13px 17px;border-bottom:1px solid var(--bd);display:flex;gap:11px;}
+.sk{background:linear-gradient(90deg,var(--s2) 25%,var(--bd2) 50%,var(--s2) 75%);background-size:200% 100%;animation:sh 1.5s infinite;border-radius:5px;}
+@keyframes sh{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.emp{padding:55px 20px;text-align:center;color:var(--t3);}
+.emp .ico{font-size:40px;margin-bottom:10px;}
+.emp p{font-size:12px;}
+
+/* RIGHT PANEL */
+.panel{position:sticky;top:0;height:100vh;overflow-y:auto;padding:17px 13px;display:flex;flex-direction:column;gap:13px;}
+.panel::-webkit-scrollbar{display:none;}
+.wgt{background:var(--s1);border:1px solid var(--bd);border-radius:13px;padding:13px;}
+.w-ttl{font-family:'Playfair Display',serif;font-size:13.5px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:5px;}
+.m-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);}
+.m-row:last-child{border-bottom:none;}
+.m-sym{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;}
+.m-nm{font-size:9px;color:var(--t3);}
+.m-r{text-align:right;}
+.m-p{font-family:'JetBrains Mono',monospace;font-size:11px;}
+.m-c{font-size:9px;font-family:'JetBrains Mono',monospace;}
+.st-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);}
+.st-row:last-child{border-bottom:none;}
+.st-nm{font-size:11.5px;font-weight:600;}
+.st-tk{font-size:9px;color:var(--t3);font-family:'JetBrains Mono',monospace;}
+.st-p{font-family:'JetBrains Mono',monospace;font-size:11px;text-align:right;}
+.st-c{font-size:9px;font-family:'JetBrains Mono',monospace;text-align:right;}
+
+/* SWAL WIDGET */
+.sw-w{background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(79,29,184,.06));border:1px solid rgba(139,92,246,.2);border-radius:13px;padding:13px;}
+.sw-h{display:flex;align-items:center;gap:9px;margin-bottom:9px;}
+.sw-av{width:33px;height:33px;background:linear-gradient(135deg,#8b5cf6,#4f1db8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.sw-nm{font-weight:700;font-size:12.5px;}
+.sw-sb{font-size:9px;color:var(--t3);}
+.sw-ch{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:9px;font-size:11.5px;color:var(--t2);line-height:1.6;min-height:54px;margin-bottom:7px;max-height:110px;overflow-y:auto;}
+.sw-rw{display:flex;gap:5px;}
+.sw-inp{flex:1;background:var(--bg);border:1px solid var(--bd);border-radius:7px;padding:7px 9px;font-size:11.5px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+.sw-inp:focus{border-color:#8b5cf6;}
+.sw-snd{background:#8b5cf6;border:none;border-radius:7px;width:29px;height:29px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;flex-shrink:0;}
+
+/* TRENDING */
+.tr-i{padding:7px 0;border-bottom:1px solid var(--bd);cursor:pointer;transition:padding-left .15s;}
+.tr-i:last-child{border-bottom:none;}
+.tr-i:hover{padding-left:4px;}
+.tr-i:hover .tr-tg{color:var(--ac);}
+.tr-n{font-size:9.5px;color:var(--t3);}
+.tr-tg{font-size:13px;font-weight:700;margin:2px 0;transition:color .2s;}
+.tr-c{font-size:9.5px;color:var(--t3);}
+
+/* WEATHER */
+.wthr{background:linear-gradient(135deg,rgba(0,229,255,.07),rgba(139,92,246,.05));border:1px solid rgba(0,229,255,.14);border-radius:13px;padding:13px;}
+.w-city{font-size:10.5px;color:var(--t3);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
+.w-main{display:flex;align-items:center;gap:11px;margin:7px 0;}
+.w-ico{font-size:36px;line-height:1;}
+.w-tmp{font-family:'Playfair Display',serif;font-size:32px;font-weight:700;line-height:1;}
+.w-unt{font-size:13px;color:var(--t3);vertical-align:super;}
+.w-dsc{font-size:11.5px;color:var(--t2);margin-bottom:7px;text-transform:capitalize;}
+.w-row{display:flex;}
+.w-st{flex:1;text-align:center;padding:5px 0;border-right:1px solid var(--bd);}
+.w-st:last-child{border-right:none;}
+.w-sv{font-size:11.5px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.w-sl{font-size:8.5px;color:var(--t3);text-transform:uppercase;letter-spacing:1px;}
+.w-fc{display:flex;gap:5px;margin-top:9px;overflow-x:auto;padding-bottom:2px;}
+.w-fc::-webkit-scrollbar{display:none;}
+.w-fd{background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:6px 9px;text-align:center;flex-shrink:0;min-width:50px;}
+.w-fn{font-size:9px;color:var(--t3);font-weight:600;}
+.w-fi{font-size:17px;margin:2px 0;}
+.w-fh{font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.w-fl{font-size:9.5px;color:var(--t3);font-family:'JetBrains Mono',monospace;}
+
+/* X TRENDS */
+.xt-i{padding:7px 0;border-bottom:1px solid var(--bd);cursor:pointer;transition:padding-left .15s;}
+.xt-i:last-child{border-bottom:none;}
+.xt-i:hover{padding-left:4px;}
+.xt-i:hover .xt-tg{color:var(--ac);}
+.xt-c{font-size:9px;color:var(--t3);}
+.xt-tg{font-size:13px;font-weight:700;margin:1px 0;transition:color .2s;}
+.xt-p{font-size:9px;color:var(--t3);}
+
+/* SPORTS PROFILES */
+.pr-row{display:flex;gap:7px;overflow-x:auto;padding:2px 0;}
+.pr-row::-webkit-scrollbar{display:none;}
+.pr-c{background:var(--s2);border:1px solid var(--bd2);border-radius:11px;padding:9px 11px;flex-shrink:0;text-align:center;min-width:75px;cursor:pointer;transition:border-color .2s;}
+.pr-c:hover{border-color:var(--ac);}
+.pr-av{width:36px;height:36px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.pr-nm{font-size:9.5px;font-weight:700;white-space:nowrap;}
+.pr-tm{font-size:8.5px;color:var(--t3);}
+
+/* ARTICLE READER */
+.rdr{position:fixed;inset:0;z-index:400;display:none;}
+.rdr.open{display:flex;}
+.rdr-bd{position:absolute;inset:0;background:rgba(3,3,10,.87);backdrop-filter:blur(14px);cursor:pointer;}
+.rdr-pn{position:relative;margin-left:auto;width:100%;max-width:700px;height:100vh;background:var(--s1);border-left:1px solid var(--bd);display:flex;flex-direction:column;overflow:hidden;animation:sIn .3s ease;}
+@keyframes sIn{from{transform:translateX(60px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+.rdr-hdr{padding:14px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:11px;flex-shrink:0;background:rgba(7,7,15,.93);backdrop-filter:blur(12px);}
+.rdr-bk{background:var(--s2);border:1px solid var(--bd);border-radius:50%;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t2);font-size:15px;flex-shrink:0;transition:all .2s;}
+.rdr-bk:hover{background:var(--bd2);color:var(--tx);}
+.rdr-hi{flex:1;min-width:0;}
+.rdr-src{font-size:10.5px;color:var(--t3);font-weight:600;margin-bottom:1px;}
+.rdr-tm{font-size:9.5px;color:var(--t3);font-family:'JetBrains Mono',monospace;}
+.rdr-acts{display:flex;gap:7px;}
+.ra{background:var(--s2);border:1px solid var(--bd);border-radius:7px;padding:6px 11px;font-size:11px;color:var(--t2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;text-decoration:none;display:flex;align-items:center;gap:4px;}
+.ra:hover{border-color:var(--ac);color:var(--ac);}
+.ra.pri{background:var(--ac);border-color:var(--ac);color:#000;font-weight:700;}
+.ra.pri:hover{opacity:.86;}
+.rdr-body{flex:1;overflow-y:auto;padding:0 0 40px;}
+.rdr-body::-webkit-scrollbar{width:2px;}
+.rdr-himg{width:100%;max-height:280px;object-fit:cover;display:block;}
+.rdr-hph{width:100%;height:240px;display:flex;align-items:center;justify-content:center;font-size:72px;background:linear-gradient(135deg,var(--s2),var(--bd2));}
+.rdr-cnt{padding:22px 26px;}
+.rdr-cr{display:flex;align-items:center;gap:7px;margin-bottom:12px;}
+.rdr-cb{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:4px;}
+.rdr-ttl{font-family:'Playfair Display',serif;font-size:23px;font-weight:700;line-height:1.28;margin-bottom:11px;}
+.rdr-byl{font-size:11.5px;color:var(--t3);margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--bd);}
+.rdr-byl strong{color:var(--t2);}
+.rdr-txt{font-size:14.5px;line-height:1.88;color:var(--t2);}
+.rdr-txt p{margin-bottom:16px;}
+.rdr-txt h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--tx);margin:24px 0 10px;}
+.rdr-txt blockquote{border-left:3px solid var(--ac);padding:11px 16px;margin:18px 0;background:var(--s2);border-radius:0 7px 7px 0;font-style:italic;color:var(--tx);}
+.rdr-tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:24px;padding-top:18px;border-top:1px solid var(--bd);}
+.rdr-tag{background:var(--s2);border:1px solid var(--bd);border-radius:18px;padding:4px 11px;font-size:11px;color:var(--t2);}
+
+/* SWAL FLOAT + READER PANEL */
+.sw-flt{position:fixed;bottom:22px;right:22px;z-index:500;background:linear-gradient(135deg,#8b5cf6,#4f1db8);border:none;border-radius:50%;width:50px;height:50px;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:21px;box-shadow:0 6px 22px rgba(139,92,246,.5);transition:transform .2s;color:#fff;}
+.sw-flt.show{display:flex;}
+.sw-flt:hover{transform:scale(1.1);}
+.sw-rpn{position:fixed;bottom:0;left:0;right:0;z-index:501;background:var(--s1);border-top:1px solid var(--bd2);border-radius:18px 18px 0 0;padding:16px 18px;max-height:48vh;overflow-y:auto;display:none;animation:sUp .3s ease;box-shadow:0 -8px 30px rgba(0,0,0,.5);}
+.sw-rpn.open{display:block;}
+@keyframes sUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.srp-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.srp-tl{font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:7px;}
+.srp-cl{background:none;border:none;color:var(--t3);font-size:17px;cursor:pointer;}
+.srp-rsp{font-size:13px;line-height:1.72;color:var(--t2);min-height:38px;}
+.srp-ir{display:flex;gap:7px;margin-top:11px;border-top:1px solid var(--bd);padding-top:11px;}
+.srp-inp{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:22px;padding:9px 14px;font-size:12.5px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+.srp-inp:focus{border-color:#8b5cf6;}
+.srp-snd{background:#8b5cf6;border:none;border-radius:50%;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0;}
+
+/* SEARCH OVERLAY */
+.s-ov{position:fixed;inset:0;z-index:600;display:none;align-items:flex-start;justify-content:center;padding-top:58px;background:rgba(3,3,10,.92);backdrop-filter:blur(22px);}
+.s-ov.open{display:flex;}
+.s-box{background:var(--s1);border:1px solid var(--bd2);border-radius:18px;width:100%;max-width:650px;overflow:hidden;}
+.s-top{display:flex;align-items:center;gap:11px;padding:14px 18px;border-bottom:1px solid var(--bd);}
+.s-top input{flex:1;background:none;border:none;outline:none;color:var(--tx);font-size:15px;font-family:'DM Sans',sans-serif;}
+.s-top input::placeholder{color:var(--t3);}
+.s-cls{background:none;border:none;color:var(--t3);font-size:17px;cursor:pointer;}
+.s-res{max-height:380px;overflow-y:auto;padding:7px;}
+.s-ri{display:flex;gap:9px;padding:9px 11px;border-radius:9px;cursor:pointer;transition:background .15s;align-items:center;}
+.s-ri:hover{background:var(--s2);}
+.s-rth{width:44px;height:36px;border-radius:6px;background:var(--bd2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px;overflow:hidden;}
+.s-rth img{width:100%;height:100%;object-fit:cover;}
+.s-rmeta{font-size:9.5px;color:var(--t3);margin-bottom:2px;}
+.s-rttl{font-size:12.5px;font-weight:600;line-height:1.33;}
+.s-emp{padding:38px;text-align:center;color:var(--t3);font-size:12.5px;}
+
+/* SWAL FULL MODAL */
+.sw-mod{position:fixed;inset:0;background:var(--bg);z-index:700;display:none;flex-direction:column;}
+.sw-mod.open{display:flex;}
+.sm-hd{padding:14px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:11px;background:var(--s1);}
+.sm-bk{background:none;border:none;color:var(--tx);font-size:19px;cursor:pointer;}
+.sm-nm{font-weight:800;font-size:14.5px;}
+.sm-st{font-size:9.5px;color:var(--gn);}
+.sm-sg{flex:1;overflow-y:auto;padding:16px 15px;display:flex;flex-direction:column;gap:11px;}
+.msg{max-width:84%;}
+.msg.usr{align-self:flex-end;}
+.msg.ai{align-self:flex-start;}
+.m-bbl{padding:10px 14px;border-radius:15px;font-size:13px;line-height:1.72;}
+.msg.usr .m-bbl{background:var(--pu);color:#fff;border-bottom-right-radius:4px;}
+.msg.ai .m-bbl{background:var(--s1);border:1px solid var(--bd2);border-bottom-left-radius:4px;}
+.m-gt{font-size:8.5px;color:var(--t3);margin-top:2px;text-align:right;font-family:'JetBrains Mono',monospace;}
+.sm-ir{padding:13px 15px;border-top:1px solid var(--bd);display:flex;gap:9px;align-items:center;background:var(--s1);}
+.sm-ir input{flex:1;background:var(--s2);border:1px solid var(--bd);border-radius:22px;padding:10px 16px;font-size:12.5px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+.sm-ir input:focus{border-color:#8b5cf6;}
+.sm-ir button{width:40px;height:40px;background:linear-gradient(135deg,#8b5cf6,#4f1db8);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;flex-shrink:0;transition:transform .2s;}
+.sm-ir button:hover{transform:scale(1.1);}
+.ty-d span{display:inline-block;width:5px;height:5px;background:var(--t3);border-radius:50%;animation:bou .8s infinite;margin:0 2px;}
+.ty-d span:nth-child(2){animation-delay:.15s;}
+.ty-d span:nth-child(3){animation-delay:.3s;}
+@keyframes bou{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-6px);}}
+
+/* API KEY MODAL */
+.ak-mod{position:fixed;inset:0;z-index:1000;background:rgba(3,3,10,.96);backdrop-filter:blur(22px);display:none;align-items:center;justify-content:center;padding:20px;}
+.ak-mod.open{display:flex;}
+.ak-box{background:var(--s1);border:1px solid var(--bd2);border-radius:18px;padding:26px 22px;max-width:400px;width:100%;}
+.ak-tl{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:6px;}
+.ak-sb{font-size:12px;color:var(--t3);line-height:1.7;margin-bottom:18px;}
+.ak-lbl{font-size:10px;font-weight:700;color:var(--t2);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;display:block;}
+.ak-inp{width:100%;background:var(--s2);border:1px solid var(--bd2);border-radius:9px;padding:11px 13px;font-size:12.5px;color:var(--tx);font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;margin-bottom:10px;}
+.ak-inp:focus{border-color:var(--ac);}
+.ak-ht{font-size:10.5px;color:var(--t3);margin-bottom:16px;line-height:1.6;}
+.ak-ht a{color:var(--ac);text-decoration:none;}
+.ak-btns{display:flex;gap:9px;}
+.ak-bt{flex:1;padding:10px;border-radius:9px;font-weight:700;font-size:12.5px;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all .2s;}
+.ak-bt.p{background:linear-gradient(135deg,#8b5cf6,#4f1db8);color:#fff;}
+.ak-bt.s{background:var(--s2);border:1px solid var(--bd2);color:var(--t2);}
+.ak-bt.s:hover{border-color:var(--ac);}
+.ak-sk{text-align:center;margin-top:11px;font-size:10.5px;color:var(--t3);cursor:pointer;}
+.ak-sk:hover{color:var(--tx);}
+
+/* MOBILE NAV */
+.m-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(7,7,15,.97);backdrop-filter:blur(24px);border-top:1px solid var(--bd);padding:10px 8px 14px;z-index:50;justify-content:space-around;safe-area-inset-bottom:env(safe-area-inset-bottom);}
+.m-btn{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9.5px;font-weight:600;color:var(--t3);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;transition:color .2s;min-width:52px;}
+.m-btn:hover,.m-btn.on{color:var(--ac);}.m-btn.on span{filter:drop-shadow(0 0 6px var(--ac));}
+.m-btn span{font-size:22px;}
+.tst{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--s1);border:1px solid var(--bd2);border-radius:9px;padding:9px 16px;font-size:11.5px;opacity:0;transition:all .3s;z-index:800;pointer-events:none;white-space:nowrap;}
+.tst.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ===== TABLET ===== */
+@media(max-width:1100px){
+  .app{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .panel{display:none;}
+  .m-nav{display:flex;}
+  .feed{padding-bottom:74px;}
+}
+/* ===== MOBILE FIRST - Full redesign ===== */
+@media(max-width:780px){
+  .app{grid-template-columns:1fr;}
+  .sidebar{display:none;}
+  .panel{display:none;}
+  .m-nav{display:flex;}
+  .feed{padding-bottom:74px;}
+
+  /* Feed header */
+  .f-hdr{padding:0;}
+  .f-top{padding:14px 16px 0;}
+  .f-ttl{font-size:20px;}
+  .s-btn{font-size:12px;padding:8px 14px;}
+
+  /* Tabs - bigger and scrollable */
+  .tabs{padding:10px 14px 0;gap:4px;}
+  .tab{padding:10px 16px;font-size:13px;font-weight:700;}
+
+  /* Ticker */
+  .tkr{padding:10px 0;}
+  .t-it{font-size:12px;gap:7px;}
+
+  /* Score cards */
+  .sc-bar{padding:12px 16px;}
+  .sc-lbl{font-size:11px;margin-bottom:9px;}
+  .sc-c{padding:10px 14px;min-width:150px;border-radius:12px;}
+  .sc-l{font-size:10px;}
+  .sc-m{font-size:13.5px;}
+  .sc-s{font-size:16px;}
+  .sc-st{font-size:10px;}
+
+  /* Hero card */
+  .h-wrap{padding:14px 14px 0;}
+  .hero{border-radius:16px;}
+  .h-img{height:220px;}
+  .h-ph{height:220px;font-size:64px;}
+  .h-body{padding:16px 14px;}
+  .l-bdg{font-size:10px;padding:3px 8px;}
+  .h-src{font-size:12px;}
+  .h-ttl{font-family:'Playfair Display',serif;font-size:20px;line-height:1.3;margin-bottom:8px;}
+  .h-dsc{font-size:13px;line-height:1.65;-webkit-line-clamp:3;}
+
+  /* Card list */
+  .c-list{padding:8px 14px;}
+  .n-card{padding:16px 0;gap:13px;}
+  .n-th{width:90px;height:72px;border-radius:12px;font-size:28px;}
+  .n-src{font-size:12px;}
+  .n-cat{font-size:10px;padding:3px 7px;}
+  .n-tm{font-size:10px;}
+  .n-ttl{font-size:15px;font-weight:700;line-height:1.38;margin-bottom:6px;}
+  .n-dsc{font-size:12.5px;line-height:1.6;-webkit-line-clamp:2;}
+  .n-acts{gap:14px;margin-top:10px;}
+  .n-act{font-size:12px;}
+
+  /* Bottom mobile nav - bigger */
+  .m-nav{padding:12px 10px 16px;}
+  .m-btn{font-size:9px;min-width:48px;gap:4px;}
+  .m-btn span{font-size:22px;}
+
+  /* Toast position */
+  .tst{bottom:100px;font-size:13px;padding:11px 20px;}
+
+  /* Loading skeleton */
+  .l-card{padding:16px 14px;gap:13px;}
+}
+
+/* ===== SMALL PHONES ===== */
+@media(max-width:400px){
+  .f-ttl{font-size:18px;}
+  .tab{padding:9px 13px;font-size:12px;}
+  .h-ttl{font-size:18px;}
+  .n-ttl{font-size:14px;}
+  .n-th{width:80px;height:66px;}
+}
+
+/* ===== MOBILE: READER, MODALS, SWAL ===== */
+@media(max-width:780px){
+  /* Article Reader - full screen on mobile */
+  .rdr-pn{max-width:100%;border-left:none;animation:slideUp2 .3s ease;}
+  @keyframes slideUp2{from{transform:translateY(40px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  .rdr-hdr{padding:14px 16px;}
+  .rdr-bk{width:36px;height:36px;font-size:17px;}
+  .rdr-src{font-size:12px;}
+  .rdr-tm{font-size:10.5px;}
+  .ra{font-size:12px;padding:7px 12px;}
+  .rdr-himg{max-height:240px;}
+  .rdr-hph{height:200px;font-size:80px;}
+  .rdr-cnt{padding:20px 18px;}
+  .rdr-cb{font-size:10px;padding:3px 10px;}
+  .rdr-ttl{font-size:22px;margin-bottom:12px;}
+  .rdr-byl{font-size:12px;margin-bottom:16px;padding-bottom:16px;}
+  .rdr-txt{font-size:15px;line-height:1.85;}
+  .rdr-txt p{margin-bottom:14px;}
+  .rdr-txt h3{font-size:18px;}
+
+  /* SWAL Reader panel */
+  .sw-rpn{padding:18px 16px;border-radius:22px 22px 0 0;}
+  .srp-tl{font-size:15px;}
+  .srp-rsp{font-size:14px;line-height:1.72;}
+  .srp-inp{font-size:14px;padding:11px 16px;}
+  .srp-snd{width:42px;height:42px;font-size:16px;}
+
+  /* SWAL Full Modal */
+  .sm-hd{padding:16px 16px;}
+  .sm-nm{font-size:16px;}
+  .sm-st{font-size:10.5px;}
+  .sm-sg{padding:16px 14px;gap:13px;}
+  .msg{max-width:90%;}
+  .m-bbl{font-size:14px;line-height:1.72;padding:12px 15px;}
+  .m-gt{font-size:10px;}
+  .sm-ir{padding:14px 14px;}
+  .sm-ir input{font-size:14px;padding:13px 18px;}
+  .sm-ir button{width:46px;height:46px;font-size:18px;}
+
+  /* SWAL Float button */
+  .sw-flt{width:54px;height:54px;font-size:23px;bottom:88px;right:16px;}
+
+  /* Search overlay */
+  .s-ov{padding-top:20px;padding-left:12px;padding-right:12px;}
+  .s-box{border-radius:16px;}
+  .s-top{padding:14px 16px;}
+  .s-top input{font-size:16px;}
+  .s-ri{padding:11px 13px;}
+  .s-rttl{font-size:13.5px;}
+  .s-rmeta{font-size:10.5px;}
+  .s-emp{font-size:13.5px;}
+
+  /* API Key Modal */
+  .ak-mod{padding:16px;}
+  .ak-box{border-radius:20px;padding:24px 18px;}
+  .ak-tl{font-size:22px;}
+  .ak-sb{font-size:13px;line-height:1.7;}
+  .ak-lbl{font-size:11px;}
+  .ak-inp{font-size:14px;padding:13px 14px;}
+  .ak-ht{font-size:12px;}
+  .ak-bt{font-size:14px;padding:13px;}
+  .ak-sk{font-size:12px;margin-top:14px;}
+
+  /* Splash screen mobile */
+  .sp-nm{font-size:48px;}
+  .sp-tg{font-size:12px;letter-spacing:3px;}
+  .sp-cr{font-size:12px;}
+  .sp-bird{width:100px;height:100px;}
+}
+
+
+/* ===== FINAL MOBILE BOOST — overrides everything for phones ===== */
+@media screen and (max-width:780px){
+  /* Full screen single column */
+  .app{grid-template-columns:1fr !important;}
+  .sidebar,.panel{display:none !important;}
+  .m-nav{display:flex !important;}
+  .feed{padding-bottom:80px !important;border-right:none !important;width:100vw !important;}
+
+  /* BIGGER FONTS everywhere */
+  body{font-size:16px;}
+  .f-ttl{font-size:21px !important;font-weight:800 !important;}
+  .tabs .tab{font-size:13.5px !important;padding:11px 16px !important;font-weight:700 !important;}
+  .h-ttl{font-size:21px !important;line-height:1.28 !important;font-weight:900 !important;}
+  .h-dsc{font-size:14px !important;line-height:1.7 !important;}
+  .h-src{font-size:13px !important;}
+  .n-ttl{font-size:16px !important;font-weight:700 !important;line-height:1.4 !important;}
+  .n-dsc{font-size:13px !important;line-height:1.65 !important;}
+  .n-src{font-size:12px !important;}
+  .n-cat{font-size:10.5px !important;padding:3px 8px !important;}
+  .n-tm{font-size:11px !important;}
+  .n-act{font-size:13px !important;}
+  .n-th{width:94px !important;height:74px !important;border-radius:12px !important;font-size:30px !important;}
+
+  /* Hero card - big and bold */
+  .h-wrap{padding:14px 14px 0 !important;}
+  .hero{border-radius:18px !important;}
+  .h-img,.h-ph{height:230px !important;}
+  .h-body{padding:18px 16px !important;}
+  .c-list{padding:6px 14px !important;}
+  .n-card{padding:18px 0 !important;gap:14px !important;}
+
+  /* Score strip */
+  .sc-bar{padding:12px 14px !important;}
+  .sc-c{min-width:145px !important;padding:10px 13px !important;}
+  .sc-m{font-size:14px !important;}
+  .sc-s{font-size:16px !important;font-weight:800 !important;}
+
+  /* Ticker bigger */
+  .t-it{font-size:12.5px !important;gap:7px !important;}
+
+  /* Reader — full screen slide up */
+  .rdr-pn{max-width:100% !important;border-left:none !important;}
+  .rdr-ttl{font-size:22px !important;line-height:1.28 !important;}
+  .rdr-txt{font-size:16px !important;line-height:1.9 !important;}
+  .rdr-cnt{padding:20px 18px !important;}
+  .rdr-bk{width:40px !important;height:40px !important;font-size:18px !important;}
+  .ra{font-size:13px !important;padding:9px 14px !important;}
+
+  /* SWAL modal */
+  .m-bbl{font-size:15px !important;line-height:1.78 !important;padding:14px 16px !important;}
+  .sm-ir input{font-size:15px !important;padding:14px 18px !important;}
+  .sm-ir button{width:48px !important;height:48px !important;font-size:19px !important;}
+  .sm-nm{font-size:17px !important;}
+  .sm-st{font-size:11.5px !important;}
+
+  /* SWAL reader panel */
+  .srp-rsp{font-size:14.5px !important;line-height:1.78 !important;}
+  .srp-inp{font-size:14.5px !important;padding:13px 18px !important;}
+  .srp-snd{width:44px !important;height:44px !important;font-size:17px !important;}
+  .srp-tl{font-size:16px !important;}
+
+  /* SWAL float button */
+  .sw-flt{width:58px !important;height:58px !important;font-size:26px !important;bottom:92px !important;right:16px !important;}
+
+  /* API key modal — slides up from bottom like native */
+  .ak-mod{align-items:flex-end !important;padding:0 !important;}
+  .ak-box{border-radius:24px 24px 0 0 !important;max-width:100% !important;padding:28px 22px 40px !important;}
+  .ak-tl{font-size:23px !important;}
+  .ak-sb{font-size:14px !important;line-height:1.75 !important;}
+  .ak-inp{font-size:16px !important;padding:14px 16px !important;border-radius:12px !important;}
+  .ak-ht{font-size:13px !important;line-height:1.7 !important;}
+  .ak-bt{padding:15px !important;font-size:16px !important;border-radius:14px !important;}
+  .ak-sk{font-size:14px !important;margin-top:18px !important;}
+
+  /* Search overlay full screen */
+  .s-ov{padding-top:0 !important;align-items:flex-start !important;}
+  .s-box{border-radius:0 !important;min-height:100vh !important;}
+  .s-top{padding:18px !important;}
+  .s-top input{font-size:17px !important;}
+  .s-rttl{font-size:14.5px !important;line-height:1.4 !important;}
+  .s-rmeta{font-size:12px !important;}
+  .s-rth{width:54px !important;height:44px !important;font-size:22px !important;}
+  .s-ri{padding:14px 16px !important;gap:14px !important;}
+
+  /* Mobile nav — chunky and tap-friendly */
+  .m-nav{padding:10px 6px 14px !important;gap:0 !important;}
+  .m-btn{font-size:10px !important;gap:3px !important;flex:1 !important;font-weight:600 !important;}
+  .m-btn span{font-size:24px !important;display:block !important;}
+  .m-btn.on{color:var(--ac) !important;}
+
+  /* Toast */
+  .tst{bottom:100px !important;font-size:14px !important;padding:13px 22px !important;border-radius:14px !important;}
+}
+
+/* Very small phones */
+@media screen and (max-width:360px){
+  .f-ttl{font-size:18px !important;}
+  .tab{padding:9px 12px !important;font-size:12px !important;}
+  .h-ttl{font-size:19px !important;}
+  .n-ttl{font-size:15px !important;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN -->
+<div id="sp">
+  <div class="sp-r2"></div><div class="sp-r1"></div>
+  <svg class="sp-bird" viewBox="0 0 120 120" fill="none">
+    <defs>
+      <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#00e5ff"/>
+        <stop offset="100%" stop-color="#8b5cf6"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="62" cy="70" rx="26" ry="17" fill="url(#sg)" opacity=".92"/>
+    <circle cx="88" cy="54" r="14" fill="url(#sg)"/>
+    <circle cx="93" cy="51" r="3.2" fill="white"/>
+    <circle cx="94.2" cy="51" r="1.6" fill="#030308"/>
+    <path d="M100 52 L114 49 L103 57 Z" fill="#f59e0b"/>
+    <path d="M58 66 Q26 40 8 56 Q28 72 54 74 Z" fill="url(#sg)" opacity=".82"/>
+    <path d="M68 58 Q88 32 108 36 Q97 54 78 66 Z" fill="url(#sg)" opacity=".72"/>
+    <path d="M36 74 Q18 88 12 105 Q28 90 44 82 Z" fill="url(#sg)" opacity=".76"/>
+  </svg>
+  <div class="sp-nm">Linkxus</div>
+  <div class="sp-tg">World &bull; Sports &bull; Crypto &bull; Entertainment</div>
+  <div class="sp-cr">Powered by <strong>AdesinaEazeAI</strong> &bull; SWAL AI &bull; Groq</div>
+  <div class="sp-bar"><div class="sp-fl"></div></div>
+</div>
+
+<!-- SEARCH OVERLAY -->
+<div class="s-ov" id="sOv" onclick="if(event.target===this)closeSearch()">
+  <div class="s-box">
+    <div class="s-top">
+      <span style="color:var(--t3);font-size:15px">&#128269;</span>
+      <input id="sInp" type="text" placeholder="Search news, sports, music, crypto..." oninput="doSearch()" onkeydown="if(event.key==='Escape')closeSearch()">
+      <button class="s-cls" onclick="closeSearch()">&#10005;</button>
+    </div>
+    <div id="sRes" class="s-emp">Start typing to search Linkxus...</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app hidden" id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-in">
+      <div class="logo">
+        <svg class="logo-b" viewBox="0 0 120 120" fill="none">
+          <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+          <ellipse cx="62" cy="70" rx="26" ry="17" fill="url(#lg)" opacity=".92"/>
+          <circle cx="88" cy="54" r="14" fill="url(#lg)"/>
+          <circle cx="93" cy="51" r="3.2" fill="white"/>
+          <circle cx="94.2" cy="51" r="1.6" fill="#030308"/>
+          <path d="M100 52 L114 49 L103 57 Z" fill="#f59e0b"/>
+          <path d="M58 66 Q26 40 8 56 Q28 72 54 74 Z" fill="url(#lg)" opacity=".82"/>
+          <path d="M68 58 Q88 32 108 36 Q97 54 78 66 Z" fill="url(#lg)" opacity=".72"/>
+          <path d="M36 74 Q18 88 12 105 Q28 90 44 82 Z" fill="url(#lg)" opacity=".76"/>
+        </svg>
+        <div class="logo-w">Link<em>xus</em></div>
+      </div>
+      <div class="sb-s" onclick="openSearch()"><span style="font-size:12px;color:var(--t3)">&#128269; Search everything...</span></div>
+      <button class="nb on" onclick="sw('all',this)"><span class="ni">&#127968;</span>Linkxus News</button>
+      <div class="s-lbl">Markets</div>
+      <button class="nb" onclick="sw('crypto',this)"><span class="ni">&#8383;</span>Crypto</button>
+      <button class="nb" onclick="sw('forex',this)"><span class="ni">&#128178;</span>Foreign Exchange</button>
+      <button class="nb" onclick="sw('stocks',this)"><span class="ni">&#128200;</span>World Stocks</button>
+      <button class="nb" onclick="sw('economy',this)"><span class="ni">&#128201;</span>Economy</button>
+      <div class="s-lbl">Tech &amp; AI</div>
+      <button class="nb" onclick="sw('ai',this)"><span class="ni">&#129302;</span>AI News</button>
+      <button class="nb" onclick="sw('tech',this)"><span class="ni">&#128187;</span>Technology</button>
+      <button class="nb" onclick="sw('it',this)"><span class="ni">&#127970;</span>IT Companies</button>
+      <button class="nb" onclick="sw('microsoft',this)"><span class="ni">&#129695;</span>Microsoft</button>
+      <button class="nb" onclick="sw('amazon',this)"><span class="ni">&#128230;</span>Amazon</button>
+      <button class="nb" onclick="sw('google',this)"><span class="ni">&#128309;</span>Google</button>
+      <button class="nb" onclick="sw('apple',this)"><span class="ni">&#127822;</span>Apple</button>
+      <button class="nb" onclick="sw('meta',this)"><span class="ni">&#127760;</span>Meta</button>
+      <div class="s-lbl">Entertainment</div>
+      <button class="nb" onclick="sw('entertainment',this)"><span class="ni">&#127916;</span>Entertainment</button>
+      <button class="nb" onclick="sw('music',this)"><span class="ni">&#127925;</span>Music</button>
+      <button class="nb" onclick="sw('hiphop',this)"><span class="ni">&#127908;</span>Hip-Hop &amp; Rap</button>
+      <button class="nb" onclick="sw('concerts',this)"><span class="ni">&#127928;</span>Concerts</button>
+      <button class="nb" onclick="sw('spotify',this)"><span class="ni">&#128154;</span>Spotify</button>
+      <div class="s-lbl">US Sports</div>
+      <button class="nb" onclick="sw('sports',this)"><span class="ni">&#127942;</span>All Sports</button>
+      <button class="nb" onclick="sw('nba',this)"><span class="ni">&#127936;</span>NBA</button>
+      <button class="nb" onclick="sw('nfl',this)"><span class="ni">&#127944;</span>NFL &amp; Super Bowl</button>
+      <button class="nb" onclick="sw('mlb',this)"><span class="ni">&#9918;</span>MLB Baseball</button>
+      <button class="nb" onclick="sw('mls',this)"><span class="ni">&#9917;</span>MLS Soccer</button>
+      <button class="nb" onclick="sw('ufc',this)"><span class="ni">&#129354;</span>UFC / MMA</button>
+      <div class="s-lbl">European Football</div>
+      <button class="nb" onclick="sw('epl',this)"><span class="ni">&#129425;</span>Premier League</button>
+      <button class="nb" onclick="sw('laliga',this)"><span class="ni">&#127466;&#127480;</span>La Liga</button>
+      <button class="nb" onclick="sw('bundesliga',this)"><span class="ni">&#129413;</span>Bundesliga</button>
+      <button class="nb" onclick="sw('seriea',this)"><span class="ni">&#127470;&#127481;</span>Serie A</button>
+      <button class="nb" onclick="sw('ligue1',this)"><span class="ni">&#127467;&#127479;</span>Ligue 1</button>
+      <button class="nb" onclick="sw('ucl',this)"><span class="ni">&#11088;</span>Champions League</button>
+      <div class="s-lbl">World News</div>
+      <button class="nb" onclick="sw('bbc',this)"><span class="ni">&#128250;</span>BBC News</button>
+      <button class="nb" onclick="sw('world',this)"><span class="ni">&#127757;</span>World News</button>
+      <button class="nb" onclick="sw('gov',this)"><span class="ni">&#127963;</span>US Politics</button>
+      <button class="nb" onclick="sw('europe',this)"><span class="ni">&#127466;&#127482;</span>European News</button>
+      <button class="nb" onclick="sw('forbes',this)"><span class="ni">&#128188;</span>Forbes</button>
+      <button class="nb" onclick="sw('fox',this)"><span class="ni">&#129418;</span>Fox News</button>
+      <div class="nd"></div>
+      <button class="nb" onclick="openSwal()"><span class="ni">&#10024;</span>SWAL AI</button>
+    </div>
+    <div class="sb-f">
+      <button class="s-cta" id="sCtaBtn" onclick="openSwal()">
+        <div class="p-dot"></div>
+        <span id="sCtaTxt">&#10024; Ask SWAL AI Anything</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN FEED -->
+  <main class="feed">
+    <div class="f-hdr">
+      <div class="f-top">
+        <div class="f-ttl">
+          <svg width="20" height="20" viewBox="0 0 120 120" fill="none">
+            <defs><linearGradient id="fg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient></defs>
+            <ellipse cx="62" cy="70" rx="26" ry="17" fill="url(#fg)" opacity=".92"/>
+            <circle cx="88" cy="54" r="14" fill="url(#fg)"/>
+            <circle cx="93" cy="51" r="3" fill="white"/>
+            <path d="M100 52 L114 49 L103 57 Z" fill="#f59e0b"/>
+            <path d="M58 66 Q26 40 8 56 Q28 72 54 74 Z" fill="url(#fg)" opacity=".82"/>
+          </svg>
+          <span id="fTtlTxt">Linkxus News</span>
+        </div>
+        <button class="s-btn" onclick="openSearch()">&#128269; Search</button>
+      </div>
+      <div class="tabs">
+        <button class="tab on" onclick="sw('all',this)">All</button>
+        <button class="tab" onclick="sw('crypto',this)">&#8383; Crypto</button>
+        <button class="tab" onclick="sw('forex',this)">&#128178; Forex</button>
+        <button class="tab" onclick="sw('stocks',this)">&#128200; Stocks</button>
+        <button class="tab" onclick="sw('music',this)">&#127925; Music</button>
+        <button class="tab" onclick="sw('hiphop',this)">&#127908; Hip-Hop</button>
+        <button class="tab" onclick="sw('entertainment',this)">&#127916; Entertainment</button>
+        <button class="tab" onclick="sw('sports',this)">&#127942; Sports</button>
+        <button class="tab" onclick="sw('nba',this)">&#127936; NBA</button>
+        <button class="tab" onclick="sw('epl',this)">&#129425; EPL</button>
+        <button class="tab" onclick="sw('nfl',this)">&#127944; NFL</button>
+        <button class="tab" onclick="sw('ufc',this)">&#129354; UFC</button>
+        <button class="tab" onclick="sw('mlb',this)">&#9918; MLB</button>
+        <button class="tab" onclick="sw('ucl',this)">&#11088; UCL</button>
+        <button class="tab" onclick="sw('ai',this)">&#129302; AI</button>
+        <button class="tab" onclick="sw('tech',this)">&#128187; Tech</button>
+        <button class="tab" onclick="sw('apple',this)">&#127822; Apple</button>
+        <button class="tab" onclick="sw('microsoft',this)">&#129695; Microsoft</button>
+        <button class="tab" onclick="sw('amazon',this)">&#128230; Amazon</button>
+        <button class="tab" onclick="sw('google',this)">&#128309; Google</button>
+        <button class="tab" onclick="sw('bbc',this)">&#128250; BBC</button>
+        <button class="tab" onclick="sw('world',this)">&#127757; World</button>
+        <button class="tab" onclick="sw('gov',this)">&#127963; Gov</button>
+        <button class="tab" onclick="sw('economy',this)">&#128201; Economy</button>
+      </div>
+    </div>
+    <div class="tkr"><div class="tkr-in" id="tkrIn"></div></div>
+    <div class="sc-bar" id="scBar">
+      <div class="sc-lbl">Live &amp; Recent Scores</div>
+      <div class="sc-row" id="scRow"></div>
+    </div>
+    <div class="h-wrap">
+      <div class="hero" id="hCard">
+        <div id="hImg" class="h-ph">&#128240;</div>
+        <div class="h-body">
+          <div class="h-meta"><span class="l-bdg">BREAKING</span><span class="h-src" id="hSrc">Loading...</span></div>
+          <div class="h-ttl" id="hTtl">Fetching latest stories...</div>
+          <div class="h-dsc" id="hDsc">Connecting to live news sources around the world.</div>
+        </div>
+      </div>
+    </div>
+    <div class="c-list" id="cList">
+      <div class="l-card"><div style="width:78px;height:60px;border-radius:9px;" class="sk"></div><div style="flex:1"><div class="sk" style="height:10px;width:95px;margin-bottom:8px"></div><div class="sk" style="height:14px;width:88%;margin-bottom:6px"></div><div class="sk" style="height:10px;width:70%"></div></div></div>
+      <div class="l-card"><div style="width:78px;height:60px;border-radius:9px;" class="sk"></div><div style="flex:1"><div class="sk" style="height:10px;width:78px;margin-bottom:8px"></div><div class="sk" style="height:14px;width:82%;margin-bottom:6px"></div><div class="sk" style="height:10px;width:62%"></div></div></div>
+      <div class="l-card"><div style="width:78px;height:60px;border-radius:9px;" class="sk"></div><div style="flex:1"><div class="sk" style="height:10px;width:108px;margin-bottom:8px"></div><div class="sk" style="height:14px;width:76%;margin-bottom:6px"></div><div class="sk" style="height:10px;width:68%"></div></div></div>
+    </div>
+  </main>
+
+  <!-- RIGHT PANEL -->
+  <aside class="panel">
+    <div class="wgt">
+      <div class="w-ttl">&#128202; Live Markets</div>
+      <div class="m-row"><div><div class="m-sym">BTC/USD</div><div class="m-nm">Bitcoin</div></div><div class="m-r"><div class="m-p" id="btcP">&#8212;</div><div class="m-c" id="btcC">&#8212;</div></div></div>
+      <div class="m-row"><div><div class="m-sym">ETH/USD</div><div class="m-nm">Ethereum</div></div><div class="m-r"><div class="m-p" id="ethP">&#8212;</div><div class="m-c" id="ethC">&#8212;</div></div></div>
+      <div class="m-row"><div><div class="m-sym">SOL/USD</div><div class="m-nm">Solana</div></div><div class="m-r"><div class="m-p" id="solP">&#8212;</div><div class="m-c" id="solC">&#8212;</div></div></div>
+      <div class="m-row"><div><div class="m-sym">EUR/USD</div><div class="m-nm">Euro</div></div><div class="m-r"><div class="m-p" id="eurP">&#8212;</div><div class="m-c" id="eurC">&#8212;</div></div></div>
+      <div class="m-row"><div><div class="m-sym">GBP/USD</div><div class="m-nm">Pound</div></div><div class="m-r"><div class="m-p" id="gbpP">&#8212;</div><div class="m-c" id="gbpC">&#8212;</div></div></div>
+      <div class="m-row"><div><div class="m-sym">USD/NGN</div><div class="m-nm">Naira</div></div><div class="m-r"><div class="m-p" id="ngnP">&#8212;</div><div class="m-c" id="ngnC">&#8212;</div></div></div>
+    </div>
+    <div class="wgt">
+      <div class="w-ttl">&#128241; Tech Stocks</div>
+      <div class="st-row"><div><div class="st-nm">Apple</div><div class="st-tk">AAPL</div></div><div><div class="st-p" id="aaplP">$&#8212;</div><div class="st-c" id="aaplC">&#8212;</div></div></div>
+      <div class="st-row"><div><div class="st-nm">Microsoft</div><div class="st-tk">MSFT</div></div><div><div class="st-p" id="msftP">$&#8212;</div><div class="st-c" id="msftC">&#8212;</div></div></div>
+      <div class="st-row"><div><div class="st-nm">Amazon</div><div class="st-tk">AMZN</div></div><div><div class="st-p" id="amznP">$&#8212;</div><div class="st-c" id="amznC">&#8212;</div></div></div>
+      <div class="st-row"><div><div class="st-nm">Alphabet</div><div class="st-tk">GOOGL</div></div><div><div class="st-p" id="googlP">$&#8212;</div><div class="st-c" id="googlC">&#8212;</div></div></div>
+      <div class="st-row"><div><div class="st-nm">Meta</div><div class="st-tk">META</div></div><div><div class="st-p" id="metaP">$&#8212;</div><div class="st-c" id="metaC">&#8212;</div></div></div>
+      <div class="st-row"><div><div class="st-nm">Nvidia</div><div class="st-tk">NVDA</div></div><div><div class="st-p" id="nvdaP">$&#8212;</div><div class="st-c" id="nvdaC">&#8212;</div></div></div>
+    </div>
+    <div class="sw-w">
+      <div class="sw-h">
+        <div class="sw-av">&#10024;</div>
+        <div><div class="sw-nm">SWAL AI</div><div class="sw-sb">by AdesinaEazeAI &bull; Groq &bull; Free</div></div>
+      </div>
+      <div class="sw-ch" id="swCh">Hi! I am SWAL AI &#10024; Ask me anything about crypto, sports, music, forex or news. Tap to set your free Groq key and unlock full AI.</div>
+      <div class="sw-rw">
+        <input class="sw-inp" id="swInp" placeholder="Ask anything..." onkeydown="if(event.key==='Enter')wSend()">
+        <button class="sw-snd" onclick="wSend()">&#10148;</button>
+      </div>
+    </div>
+    <div class="wgt">
+      <div class="w-ttl">&#128293; Trending</div>
+      <div class="tr-i"><div class="tr-n">1 &bull; Trending</div><div class="tr-tg">#Bitcoin</div><div class="tr-c">14.2K posts</div></div>
+      <div class="tr-i"><div class="tr-n">2 &bull; Music</div><div class="tr-tg">#KendrickLamar</div><div class="tr-c">11.8K posts</div></div>
+      <div class="tr-i"><div class="tr-n">3 &bull; Sports</div><div class="tr-tg">#NBAPlayoffs</div><div class="tr-c">9.4K posts</div></div>
+      <div class="tr-i"><div class="tr-n">4 &bull; Football</div><div class="tr-tg">#PremierLeague</div><div class="tr-c">8.1K posts</div></div>
+      <div class="tr-i"><div class="tr-n">5 &bull; Tech</div><div class="tr-tg">#AINews</div><div class="tr-c">6.7K posts</div></div>
+      <div class="tr-i"><div class="tr-n">6 &bull; Crypto</div><div class="tr-tg">#Ethereum</div><div class="tr-c">5.3K posts</div></div>
+      <div class="tr-i"><div class="tr-n">7 &bull; UFC</div><div class="tr-tg">#UFC316</div><div class="tr-c">4.8K posts</div></div>
+    </div>
+    <div class="wthr" id="wthr">
+      <div class="w-city" id="wCity">&#128205; Detecting location...</div>
+      <div class="w-main">
+        <div class="w-ico" id="wIco">&#127780;&#65039;</div>
+        <div>
+          <div><span class="w-tmp" id="wTmp">--</span><span class="w-unt">&deg;C</span></div>
+          <div class="w-dsc" id="wDsc">Loading...</div>
+        </div>
+      </div>
+      <div class="w-row">
+        <div class="w-st"><div class="w-sv" id="wHum">--%</div><div class="w-sl">Humidity</div></div>
+        <div class="w-st"><div class="w-sv" id="wWnd">--</div><div class="w-sl">Wind</div></div>
+        <div class="w-st"><div class="w-sv" id="wFls">--&deg;</div><div class="w-sl">Feels</div></div>
+      </div>
+      <div class="w-fc" id="wFc"></div>
+    </div>
+    <div class="wgt">
+      <div class="w-ttl">&#120143; Trending on X</div>
+      <div class="xt-i"><div class="xt-c">Tech &bull; Trending</div><div class="xt-tg">#AI2026</div><div class="xt-p">42.1K posts</div></div>
+      <div class="xt-i"><div class="xt-c">Music &bull; Trending</div><div class="xt-tg">#KendrickLamar</div><div class="xt-p">38.4K posts</div></div>
+      <div class="xt-i"><div class="xt-c">Sports &bull; NBA</div><div class="xt-tg">#NBAPlayoffs</div><div class="xt-p">31.7K posts</div></div>
+      <div class="xt-i"><div class="xt-c">Crypto</div><div class="xt-tg">#Bitcoin96K</div><div class="xt-p">28.9K posts</div></div>
+      <div class="xt-i"><div class="xt-c">Football</div><div class="xt-tg">#PremierLeague</div><div class="xt-p">24.2K posts</div></div>
+      <div class="xt-i"><div class="xt-c">Nigeria</div><div class="xt-tg">#USDNGN</div><div class="xt-p">14.3K posts</div></div>
+      <div class="xt-i"><div class="xt-c">Sports &bull; UFC</div><div class="xt-tg">#UFC316</div><div class="xt-p">11.6K posts</div></div>
+    </div>
+    <div class="wgt">
+      <div class="w-ttl">&#127775; Sports Profiles</div>
+      <div class="pr-row">
+        <div class="pr-c" onclick="askA('Shai Gilgeous-Alexander NBA 2026 stats')"><div class="pr-av" style="background:rgba(200,16,46,.15)">&#127936;</div><div class="pr-nm">SGA</div><div class="pr-tm">OKC Thunder</div></div>
+        <div class="pr-c" onclick="askA('Erling Haaland Man City goals 2026')"><div class="pr-av" style="background:rgba(108,165,56,.15)">&#9917;</div><div class="pr-nm">Haaland</div><div class="pr-tm">Man City</div></div>
+        <div class="pr-c" onclick="askA('Patrick Mahomes Chiefs Super Bowl 2026')"><div class="pr-av" style="background:rgba(227,24,55,.15)">&#127944;</div><div class="pr-nm">Mahomes</div><div class="pr-tm">KC Chiefs</div></div>
+        <div class="pr-c" onclick="askA('Jon Jones UFC heavyweight champion 2026')"><div class="pr-av" style="background:rgba(200,0,0,.15)">&#129354;</div><div class="pr-nm">Jon Jones</div><div class="pr-tm">UFC HW</div></div>
+        <div class="pr-c" onclick="askA('Lionel Messi Inter Miami 2026 season')"><div class="pr-av" style="background:rgba(0,144,168,.15)">&#9917;</div><div class="pr-nm">Messi</div><div class="pr-tm">Inter Miami</div></div>
+        <div class="pr-c" onclick="askA('LeBron James Lakers NBA 2026')"><div class="pr-av" style="background:rgba(247,101,0,.15)">&#127936;</div><div class="pr-nm">LeBron</div><div class="pr-tm">Lakers</div></div>
+        <div class="pr-c" onclick="askA('Bukayo Saka Arsenal Premier League 2026')"><div class="pr-av" style="background:rgba(239,1,7,.15)">&#9917;</div><div class="pr-nm">Saka</div><div class="pr-tm">Arsenal</div></div>
+        <div class="pr-c" onclick="askA('Jude Bellingham Real Madrid UCL 2026')"><div class="pr-av" style="background:rgba(0,86,210,.15)">&#9917;</div><div class="pr-nm">Bellingham</div><div class="pr-tm">Real Madrid</div></div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- MOBILE NAV -->
+<nav class="m-nav">
+  <button class="m-btn on" onclick="sw('all',this)"><span>&#127968;</span>Home</button>
+  <button class="m-btn" onclick="sw('sports',this)"><span>&#127942;</span>Sports</button>
+  <button class="m-btn" onclick="openSearch()"><span>&#128269;</span>Search</button>
+  <button class="m-btn" onclick="openSwal()"><span>&#10024;</span>SWAL</button>
+  <button class="m-btn" onclick="sw('music',this)"><span>&#127925;</span>Music</button>
+</nav>
+
+<!-- ARTICLE READER -->
+<div class="rdr" id="rdr">
+  <div class="rdr-bd" onclick="closeRdr()"></div>
+  <div class="rdr-pn">
+    <div class="rdr-hdr">
+      <button class="rdr-bk" onclick="closeRdr()">&#8592;</button>
+      <div class="rdr-hi">
+        <div class="rdr-src" id="rSrc">&#8212;</div>
+        <div class="rdr-tm" id="rTm">&#8212;</div>
+      </div>
+      <div class="rdr-acts">
+        <button class="ra" onclick="cpLink()">&#128279; Share</button>
+        <a class="ra pri" id="rExt" href="#" target="_blank" rel="noopener">Read Original &#8599;</a>
+      </div>
+    </div>
+    <div class="rdr-body">
+      <div id="rImgW"></div>
+      <div class="rdr-cnt">
+        <div class="rdr-cr"><span class="rdr-cb" id="rCat">NEWS</span></div>
+        <div class="rdr-ttl" id="rTtl">Loading...</div>
+        <div class="rdr-byl"><strong id="rSrc2">&#8212;</strong> &bull; <span id="rTm2">&#8212;</span></div>
+        <div class="rdr-txt" id="rTxt"></div>
+        <div class="rdr-tags" id="rTags"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SWAL FLOAT BUTTON -->
+<button class="sw-flt" id="swFlt" onclick="openRSwal()">&#10024;</button>
+
+<!-- SWAL READER PANEL -->
+<div class="sw-rpn" id="swRpn">
+  <div class="srp-h">
+    <div class="srp-tl">&#10024; SWAL AI <span style="font-size:10px;color:var(--t3);font-weight:400">&#8212; about this article</span></div>
+    <button class="srp-cl" onclick="closeRSwal()">&#10005;</button>
+  </div>
+  <div class="srp-rsp" id="srpRsp">Ask me anything about this article.</div>
+  <div class="srp-ir">
+    <input class="srp-inp" id="srpInp" placeholder="Summarise... Explain... Fact-check..." onkeydown="if(event.key==='Enter')srpSend()">
+    <button class="srp-snd" onclick="srpSend()">&#10148;</button>
+  </div>
+</div>
+
+<!-- SWAL FULL MODAL -->
+<div class="sw-mod" id="swMod">
+  <div class="sm-hd">
+    <button class="sm-bk" onclick="closeSwal()">&#8592;</button>
+    <div class="sw-av" style="width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">&#10024;</div>
+    <div>
+      <div class="sm-nm">SWAL AI</div>
+      <div class="sm-st">&#9679; Online &bull; by AdesinaEazeAI &bull; Groq LLaMA 3.3</div>
+    </div>
+  </div>
+  <div class="sm-sg" id="smSg">
+    <div class="msg ai">
+      <div class="m-bbl">
+        Hello! I am <strong>SWAL AI</strong> &#10024; built by <strong>AdesinaEazeAI</strong>.<br><br>
+        I can answer questions about:<br>
+        &bull; <strong>Crypto</strong> &#8212; BTC, ETH, SOL prices and analysis<br>
+        &bull; <strong>Forex</strong> &#8212; USD/NGN, EUR/USD, GBP/USD rates<br>
+        &bull; <strong>Sports</strong> &#8212; NBA, EPL, NFL, UFC, MLB results and transfers<br>
+        &bull; <strong>Music</strong> &#8212; Rap, Spotify charts, artist bios, concerts<br>
+        &bull; <strong>Tech</strong> &#8212; Apple, Google, Microsoft, Meta, AI news<br>
+        &bull; <strong>World news</strong> &#8212; Politics, economy, global events<br><br>
+        What would you like to know?
+      </div>
+      <div class="m-gt">just now</div>
+    </div>
+  </div>
+  <div class="sm-ir">
+    <input type="text" id="smInp" placeholder="Ask SWAL AI anything..." onkeydown="if(event.key==='Enter')mSend()">
+    <button onclick="mSend()">&#10148;</button>
+  </div>
+</div>
+
+<!-- API KEY MODAL -->
+<div class="ak-mod" id="akMod">
+  <div class="ak-box">
+    <div class="ak-tl">&#10024; Activate SWAL AI</div>
+    <div class="ak-sb">SWAL AI uses Groq - the world's fastest free AI. Get your free key at console.groq.com in 30 seconds. No credit card. Key stored only in your browser.</div>
+    <span class="ak-lbl">Groq API Key</span>
+    <input class="ak-inp" id="akInp" type="password" placeholder="gsk_..." onkeydown="if(event.key==='Enter')saveKey()">
+    <div class="ak-ht">
+      Get free key at <a href="https://console.groq.com" target="_blank">console.groq.com</a> &#8594; API Keys &#8594; Create Key<br>
+      <strong style="color:var(--gd)">&#9889; Tip:</strong> Upload to <a href="https://eazeai666.github.io/Linkxus" target="_blank">GitHub Pages</a> for best SWAL AI performance.
+    </div>
+    <div class="ak-btns">
+      <button class="ak-bt s" onclick="closeAk()">Cancel</button>
+      <button class="ak-bt p" onclick="saveKey()">&#128640; Activate Free</button>
+    </div>
+    <div class="ak-sk" onclick="closeAk()">Skip - browse news without AI</div>
+  </div>
+</div>
+
+<div class="tst" id="tst"></div>
+
+<script>
+// ===== STATE =====
+var arts = [], curTab = 'all', curArt = null;
+
+// ===== SPLASH =====
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    document.getElementById('sp').classList.add('out');
+    var a = document.getElementById('app');
+    a.classList.remove('hidden');
+    a.classList.add('visible');
+    setTimeout(function() { document.getElementById('sp').style.display = 'none'; }, 900);
+  }, 3500);
+});
+
+// ===== CATEGORY CONFIG =====
+var CMAP = {
+  all: null, crypto: 'crypto', forex: 'forex', stocks: 'stocks', economy: 'economy',
+  ai: 'ai', tech: 'tech', it: 'it', microsoft: 'microsoft', amazon: 'amazon',
+  google: 'google', apple: 'apple', meta: 'meta',
+  entertainment: 'entertainment', music: 'music', hiphop: 'hiphop',
+  concerts: 'concerts', spotify: 'spotify',
+  sports: ['sports','nba','nfl','mlb','mls','ufc'],
+  nba: 'nba', nfl: 'nfl', mlb: 'mlb', mls: 'mls', ufc: 'ufc',
+  epl: 'epl', laliga: 'laliga', bundesliga: 'bundesliga',
+  seriea: 'seriea', ligue1: 'ligue1', ucl: 'ucl',
+  bbc: 'bbc', world: 'world', gov: 'gov', europe: 'europe',
+  forbes: 'forbes', fox: 'fox'
+};
+var SPTS = ['sports','nba','nfl','mlb','mls','ufc','epl','laliga','bundesliga','seriea','ligue1','ucl'];
+var TTLS = {
+  all:'Linkxus News', crypto:'Crypto Markets', forex:'Foreign Exchange',
+  stocks:'World Stocks', economy:'Economy', ai:'AI News', tech:'Technology',
+  it:'IT Companies', microsoft:'Microsoft', amazon:'Amazon', google:'Google',
+  apple:'Apple', meta:'Meta', entertainment:'Entertainment', music:'Music',
+  hiphop:'Hip-Hop and Rap', concerts:'Concerts', spotify:'Spotify',
+  sports:'All Sports', nba:'NBA', nfl:'NFL and Super Bowl', mlb:'MLB Baseball',
+  mls:'MLS Soccer', ufc:'UFC and MMA', epl:'Premier League', laliga:'La Liga',
+  bundesliga:'Bundesliga', seriea:'Serie A', ligue1:'Ligue 1', ucl:'Champions League',
+  bbc:'BBC News', world:'World News', gov:'US Politics', europe:'European News',
+  forbes:'Forbes', fox:'Fox News'
+};
+var CS = {
+  crypto:{k:'cc',l:'CRYPTO'}, forex:{k:'cf',l:'FOREX'}, stocks:{k:'cs',l:'STOCKS'},
+  economy:{k:'ce',l:'ECONOMY'}, ai:{k:'cai',l:'AI'}, tech:{k:'ct',l:'TECH'},
+  it:{k:'cit',l:'IT'}, microsoft:{k:'cit',l:'MSFT'}, amazon:{k:'cit',l:'AWS'},
+  google:{k:'cit',l:'GOOGLE'}, apple:{k:'cit',l:'APPLE'}, meta:{k:'cit',l:'META'},
+  entertainment:{k:'cent',l:'ENT'}, music:{k:'cmu',l:'MUSIC'},
+  hiphop:{k:'cmu',l:'HIP-HOP'}, concerts:{k:'cmu',l:'CONCERTS'},
+  spotify:{k:'cmu',l:'SPOTIFY'}, sports:{k:'csp',l:'SPORTS'},
+  nba:{k:'cnba',l:'NBA'}, nfl:{k:'cnfl',l:'NFL'}, mlb:{k:'cnfl',l:'MLB'},
+  mls:{k:'cmls',l:'MLS'}, ufc:{k:'cufc',l:'UFC'},
+  epl:{k:'cepl',l:'EPL'}, laliga:{k:'ceur',l:'LA LIGA'},
+  bundesliga:{k:'ceur',l:'BUNDESLIGA'}, seriea:{k:'ceur',l:'SERIE A'},
+  ligue1:{k:'ceur',l:'LIGUE 1'}, ucl:{k:'ceur',l:'UCL'},
+  bbc:{k:'cbb',l:'BBC'}, world:{k:'cw',l:'WORLD'},
+  gov:{k:'cgv',l:'US GOV'}, europe:{k:'ceur',l:'EUROPE'},
+  forbes:{k:'cs',l:'FORBES'}, fox:{k:'cbb',l:'FOX'}
+};
+var EM = {
+  crypto:'&#8383;', forex:'&#128178;', stocks:'&#128200;', economy:'&#128201;',
+  ai:'&#129302;', tech:'&#128187;', it:'&#127970;', microsoft:'&#129695;',
+  amazon:'&#128230;', google:'&#128309;', apple:'&#127822;', meta:'&#127760;',
+  entertainment:'&#127916;', music:'&#127925;', hiphop:'&#127908;',
+  concerts:'&#127928;', spotify:'&#128154;', sports:'&#127942;',
+  nba:'&#127936;', nfl:'&#127944;', mlb:'&#9918;', mls:'&#9917;',
+  ufc:'&#129354;', epl:'&#9917;', laliga:'&#9917;', bundesliga:'&#9917;',
+  seriea:'&#9917;', ligue1:'&#9917;', ucl:'&#11088;', bbc:'&#128250;',
+  world:'&#127757;', gov:'&#127963;', europe:'&#127466;&#127482;',
+  forbes:'&#128188;', fox:'&#129418;'
+};
+var IMGTOPICS = {
+  crypto:'bitcoin cryptocurrency', forex:'currency finance trading', stocks:'stock market wall street',
+  economy:'business economy finance', ai:'artificial intelligence robot', tech:'technology computer',
+  it:'office technology corporate', microsoft:'microsoft software', amazon:'amazon delivery',
+  google:'google technology', apple:'apple iphone', meta:'social media technology',
+  entertainment:'cinema movies entertainment', music:'music concert stage',
+  hiphop:'hip hop rap concert', concerts:'concert crowd festival', spotify:'headphones music streaming',
+  sports:'sports stadium crowd', nba:'basketball court nba', nfl:'american football stadium',
+  mlb:'baseball stadium game', mls:'soccer football stadium', ufc:'martial arts fight',
+  epl:'soccer football', laliga:'soccer spain', bundesliga:'soccer germany',
+  seriea:'soccer italy', ligue1:'soccer france', ucl:'champions league soccer',
+  bbc:'news journalism broadcast', world:'world globe news', gov:'washington capitol politics',
+  europe:'europe landmark city', forbes:'business success money', fox:'news broadcast media'
+};
+var SCDATA = {
+  sports:[{l:'NBA',t:'Thunder vs Celtics',s:'112-105',st:'G7 Final'},{l:'UFC',t:'Jones vs Aspinall',s:'TKO R3',st:'Result'},{l:'NFL',t:'Chiefs vs Eagles',s:'31-24',st:'Super Bowl'}],
+  nba:[{l:'NBA',t:'Thunder vs Celtics',s:'112-105',st:'G7 Final'},{l:'NBA',t:'Lakers vs Warriors',s:'LIVE',st:'Q3 74-68'},{l:'NBA',t:'Knicks vs Bucks',s:'94-89',st:'Final'}],
+  nfl:[{l:'Super Bowl LX',t:'Chiefs vs 49ers',s:'31-24',st:'Final'},{l:'NFL Draft',t:'Cowboys Pick #1',s:'QB',st:'Round 1'}],
+  mlb:[{l:'MLB',t:'Yankees vs Red Sox',s:'7-3',st:'Final'},{l:'MLB',t:'Dodgers vs Giants',s:'4-2',st:'Final'}],
+  mls:[{l:'MLS',t:'Inter Miami vs Atlanta',s:'4-1',st:'Final'},{l:'MLS',t:'LAFC vs Portland',s:'2-2',st:'Final'}],
+  ufc:[{l:'UFC 316',t:'Jones vs Aspinall',s:'TKO R3',st:'Result'},{l:'UFC 316',t:'Poirier vs Gaethje',s:'Decision',st:'Result'}],
+  epl:[{l:'EPL',t:'Arsenal vs Everton',s:'4-0',st:'FT'},{l:'EPL',t:'Man City vs Chelsea',s:'1-1',st:'FT'},{l:'EPL',t:'Liverpool vs Spurs',s:'3-0',st:'FT'}],
+  laliga:[{l:'La Liga',t:'Barcelona vs Atletico',s:'3-0',st:'FT'},{l:'La Liga',t:'Real Madrid vs Sevilla',s:'4-1',st:'FT'}],
+  bundesliga:[{l:'Bundesliga',t:'Leverkusen vs Dortmund',s:'2-0',st:'FT'},{l:'Bundesliga',t:'Bayern vs Leipzig',s:'3-1',st:'FT'}],
+  seriea:[{l:'Serie A',t:'Inter vs AC Milan',s:'2-2',st:'FT'},{l:'Serie A',t:'Juve vs Napoli',s:'1-0',st:'FT'}],
+  ligue1:[{l:'Ligue 1',t:'PSG vs Lyon',s:'3-0',st:'FT'},{l:'Ligue 1',t:'Monaco vs Marseille',s:'1-2',st:'FT'}],
+  ucl:[{l:'UCL Final',t:'Real Madrid vs PSG',s:'3-2',st:'FT Wembley'},{l:'UCL',t:'Arsenal vs Dortmund',s:'4-2 Agg',st:'FT'}]
+};
+
+// ===== RSS PROXIES AND SOURCES =====
+var PX = [
+  function(u) { return 'https://api.allorigins.win/get?url=' + encodeURIComponent(u); },
+  function(u) { return 'https://corsproxy.io/?' + encodeURIComponent(u); }
+];
+var SRCS = [
+  {n:'CoinDesk',c:'#f59e0b',cat:'crypto',u:'https://www.coindesk.com/arc/outboundfeeds/rss/'},
+  {n:'CoinTelegraph',c:'#e91e63',cat:'crypto',u:'https://cointelegraph.com/rss'},
+  {n:'Decrypt',c:'#ff6b35',cat:'crypto',u:'https://decrypt.co/feed'},
+  {n:'ForexLive',c:'#10b981',cat:'forex',u:'https://www.forexlive.com/feed/news'},
+  {n:'FX Street',c:'#059669',cat:'forex',u:'https://www.fxstreet.com/rss'},
+  {n:'Forbes Biz',c:'#d97706',cat:'stocks',u:'https://www.forbes.com/business/feed/'},
+  {n:'Reuters Biz',c:'#ea580c',cat:'economy',u:'https://feeds.reuters.com/reuters/businessNews'},
+  {n:'BBC Business',c:'#dc2626',cat:'economy',u:'https://feeds.bbci.co.uk/news/business/rss.xml'},
+  {n:'TechCrunch',c:'#00e5ff',cat:'tech',u:'https://techcrunch.com/feed/'},
+  {n:'The Verge',c:'#ef4444',cat:'tech',u:'https://www.theverge.com/rss/index.xml'},
+  {n:'Ars Technica',c:'#f97316',cat:'tech',u:'https://feeds.arstechnica.com/arstechnica/index'},
+  {n:'Hacker News',c:'#f97316',cat:'it',u:'https://news.ycombinator.com/rss'},
+  {n:'MIT Tech',c:'#8b5cf6',cat:'ai',u:'https://www.technologyreview.com/feed/'},
+  {n:'VentureBeat',c:'#a78bfa',cat:'ai',u:'https://feeds.feedburner.com/venturebeat/SZYF'},
+  {n:'Microsoft Blog',c:'#00a4ef',cat:'microsoft',u:'https://blogs.microsoft.com/feed/'},
+  {n:'AWS Blog',c:'#ff9900',cat:'amazon',u:'https://aws.amazon.com/blogs/aws/feed/'},
+  {n:'Google Blog',c:'#4285f4',cat:'google',u:'https://blog.google/rss/'},
+  {n:'Apple Dev',c:'#555555',cat:'apple',u:'https://developer.apple.com/news/rss/news.rss'},
+  {n:'BBC News',c:'#dc2626',cat:'bbc',u:'https://feeds.bbci.co.uk/news/rss.xml'},
+  {n:'BBC World',c:'#dc2626',cat:'world',u:'https://feeds.bbci.co.uk/news/world/rss.xml'},
+  {n:'BBC Europe',c:'#dc2626',cat:'europe',u:'https://feeds.bbci.co.uk/news/world/europe/rss.xml'},
+  {n:'Reuters',c:'#ea580c',cat:'world',u:'https://feeds.reuters.com/reuters/topNews'},
+  {n:'Forbes',c:'#d97706',cat:'forbes',u:'https://www.forbes.com/business/feed/'},
+  {n:'Fox News',c:'#003087',cat:'fox',u:'https://feeds.foxnews.com/foxnews/latest'},
+  {n:'NPR',c:'#4a86c8',cat:'gov',u:'https://feeds.npr.org/1014/rss.xml'},
+  {n:'ESPN',c:'#cc0000',cat:'sports',u:'https://www.espn.com/espn/rss/news'},
+  {n:'BBC Sport',c:'#dc2626',cat:'sports',u:'https://feeds.bbci.co.uk/sport/rss.xml'},
+  {n:'Sky Sports',c:'#0066cc',cat:'sports',u:'https://www.skysports.com/rss/12040'},
+  {n:'ESPN NBA',c:'#c8102e',cat:'nba',u:'https://www.espn.com/espn/rss/nba/news'},
+  {n:'ESPN NFL',c:'#013369',cat:'nfl',u:'https://www.espn.com/espn/rss/nfl/news'},
+  {n:'ESPN MLB',c:'#002d72',cat:'mlb',u:'https://www.espn.com/espn/rss/mlb/news'},
+  {n:'MMA Fighting',c:'#cc0000',cat:'ufc',u:'https://www.mmafighting.com/rss/current'},
+  {n:'BBC Football',c:'#dc2626',cat:'epl',u:'https://feeds.bbci.co.uk/sport/football/rss.xml'},
+  {n:'Sky Football',c:'#0066cc',cat:'epl',u:'https://www.skysports.com/rss/12040'},
+  {n:'Rolling Stone',c:'#ec4899',cat:'music',u:'https://www.rollingstone.com/music/feed/'},
+  {n:'Billboard',c:'#f59e0b',cat:'music',u:'https://www.billboard.com/feed/'},
+  {n:'NME',c:'#ef4444',cat:'music',u:'https://www.nme.com/feed'},
+  {n:'HipHopDX',c:'#a78bfa',cat:'hiphop',u:'https://hiphopdx.com/feed'},
+  {n:'Pitchfork',c:'#10b981',cat:'music',u:'https://pitchfork.com/feed/feed-news/rss'},
+  {n:'Variety',c:'#f59e0b',cat:'entertainment',u:'https://variety.com/feed/'},
+  {n:'Deadline',c:'#dc2626',cat:'entertainment',u:'https://deadline.com/feed/'},
+  {n:'Spotify News',c:'#1db954',cat:'spotify',u:'https://newsroom.spotify.com/feed/'}
+];
+
+// ===== RSS FETCH =====
+async function fW(url, pFn) {
+  var r = await fetch(pFn(url), {signal: AbortSignal.timeout(8000)});
+  var ct = r.headers.get('content-type') || '';
+  if (ct.includes('json')) {
+    var j = await r.json();
+    return j.contents || j.body || '';
+  }
+  return await r.text();
+}
+function pX(txt, src) {
+  try {
+    var doc = new DOMParser().parseFromString(txt, 'text/xml');
+    var items = Array.from(doc.querySelectorAll('item, entry')).slice(0, 10);
+    return items.map(function(it) {
+      var title = (it.querySelector('title') || {}).textContent || '';
+      title = title.trim();
+      var linkEl = it.querySelector('link');
+      var rawL = linkEl ? (linkEl.textContent.trim() || linkEl.getAttribute('href') || '#') : '#';
+      var link = rawL.startsWith('http') ? rawL : '#';
+      var descEl = it.querySelector('description') || it.querySelector('summary') || it.querySelector('content');
+      var rawD = descEl ? descEl.textContent.trim() : '';
+      var desc = rawD.replace(/<[^>]+>/g, '').replace(/&[a-z#0-9]+;/gi, '').trim().slice(0, 500);
+      var pubEl = it.querySelector('pubDate') || it.querySelector('published') || it.querySelector('updated');
+      var pubT = pubEl ? pubEl.textContent.trim() : '';
+      var pub = pubT ? new Date(pubT) : new Date();
+      var imgM = rawD.match(/src=["']([^"']+\.(?:jpg|jpeg|png|webp)(?:[^"']*)?)/i);
+      var img = imgM ? imgM[1] : null;
+      if (!title || title.length < 5) return null;
+      return {title: title, link: link, desc: desc, pub: isNaN(pub.getTime()) ? new Date() : pub, source: src.n, color: src.c, cat: src.cat, img: img};
+    }).filter(Boolean);
+  } catch(e) { return []; }
+}
+async function fetchFeed(src) {
+  for (var i = 0; i < PX.length; i++) {
+    try {
+      var txt = await fW(src.u, PX[i]);
+      if (!txt || txt.length < 80) continue;
+      var a = pX(txt, src);
+      if (a.length > 0) return a;
+    } catch(e) {}
+  }
+  return [];
+}
+
+// ===== FALLBACK ARTICLES =====
+function getFallback() {
+  var n = Date.now();
+  return [
+    {title:'Bitcoin surges past $96,000 as BlackRock ETF sets inflow record',link:'https://www.coindesk.com',desc:'Bitcoin broke through $96,000 after BlackRock ETF recorded a $872 million single-day inflow. Total holdings exceed $22 billion. Ethereum rose 8% and Solana gained 11%.',pub:new Date(n),source:'CoinDesk',color:'#f59e0b',cat:'crypto',img:null,fullText:'Bitcoin has broken through the $96,000 barrier driven by record institutional demand.\n\nBlackRock iShares Bitcoin ETF recorded its largest ever single-day inflow of $872 million pushing total AUM above $22 billion.\n\nEthereum rose 8.3% to $3,420 while Solana gained 11.2% to $182. The total crypto market cap crossed $3.4 trillion.\n\nJPMorgan analysts upgraded their 12-month Bitcoin target to $120,000 citing accelerating adoption by sovereign wealth funds and corporate treasuries.'},
+    {title:'Kendrick Lamar announces Grand National World Tour with 80+ dates',link:'https://www.rollingstone.com',desc:'Pulitzer Prize winning rapper Kendrick Lamar announced his biggest world tour with 80+ shows across 6 continents starting September.',pub:new Date(n-900000),source:'Rolling Stone',color:'#ec4899',cat:'music',img:null,fullText:'Kendrick Lamar has officially announced the Grand National World Tour with over 80 dates spanning six continents.\n\nThe tour kicks off September 12 in Los Angeles at SoFi Stadium and runs through March 2027.\n\nAfrican shows in Lagos, Nairobi and Accra mark his first performances on the continent.\n\nOpening acts include SZA and Future for select North American dates.'},
+    {title:'NBA Playoffs: OKC Thunder eliminate Denver Nuggets in Game 6 thriller',link:'https://www.espn.com',desc:'Shai Gilgeous-Alexander dropped 44 points as Oklahoma City Thunder eliminated the defending champion Denver Nuggets 118-112.',pub:new Date(n-1800000),source:'ESPN NBA',color:'#c8102e',cat:'nba',img:null,fullText:'Shai Gilgeous-Alexander delivered a masterclass 44-point performance as the Oklahoma City Thunder eliminated the Denver Nuggets 118-112 in Game 6.\n\nSGA became the youngest player to score 40+ points in an elimination game since Kobe Bryant in 2003.\n\nOKC advances to the Western Conference Finals for the first time since 2016.'},
+    {title:'Apple announces iPhone 18 Pro with titanium display and AI camera',link:'https://www.apple.com',desc:'Apple unveiled the iPhone 18 Pro with a 250-megapixel AI camera, titanium OLED display, and A19 Bionic chip on 2nm process.',pub:new Date(n-3600000),source:'Apple Dev',color:'#555555',cat:'apple',img:null},
+    {title:'Premier League: Arsenal clinch title with stunning 4-0 win on final day',link:'https://www.skysports.com',desc:'Arsenal secured their first Premier League title in 21 years with a dominant 4-0 demolition of Everton on the final day of the season.',pub:new Date(n-5400000),source:'Sky Football',color:'#0066cc',cat:'epl',img:null,fullText:'Arsenal secured their first Premier League title since 2004 with a commanding 4-0 win at Goodison Park on the final day.\n\nBukayo Saka scored a hat-trick in the defining match, while Martin Odegaard became the first Norwegian captain to lift the Premier League trophy.\n\nThe Gunners finished two points clear of Manchester City.'},
+    {title:'USD/NGN: Naira strengthens after CBN injects $500 million in FX liquidity',link:'https://www.forexlive.com',desc:'The Nigerian naira moved from 1,640 to 1,540 at official market after the Central Bank of Nigeria emergency intervention.',pub:new Date(n-7200000),source:'ForexLive',color:'#10b981',cat:'forex',img:null,fullText:'The Nigerian naira strengthened sharply against the dollar following a surprise Central Bank of Nigeria intervention.\n\nThe CBN injected $500 million in FX liquidity, moving the official rate from 1,640 to 1,540 per dollar.\n\nAn emergency interest rate hike of 100 basis points to 28.75% accompanied the move - the highest level since 2004.'},
+    {title:'UFC 316: Jon Jones TKOs Tom Aspinall to unify heavyweight titles',link:'https://www.mmafighting.com',desc:'Jon Jones stopped Tom Aspinall with a devastating Round 3 TKO to become the undisputed UFC heavyweight champion.',pub:new Date(n-10800000),source:'MMA Fighting',color:'#cc0000',cat:'ufc',img:null},
+    {title:'Google unveils Gemini Ultra 3 claiming to surpass GPT-5 on all benchmarks',link:'https://blog.google',desc:'Google DeepMind unveiled Gemini Ultra 3 with a 2 million token context window and native real-time internet access.',pub:new Date(n-12600000),source:'Google Blog',color:'#4285f4',cat:'google',img:null},
+    {title:'Champions League Final: Real Madrid defeat PSG 3-2 in epic Wembley clash',link:'https://www.skysports.com',desc:'Real Madrid won their 16th Champions League title with a dramatic 3-2 victory over PSG at sold-out Wembley Stadium.',pub:new Date(n-14400000),source:'Sky Football',color:'#0066cc',cat:'ucl',img:null},
+    {title:'Drake and The Weeknd announce Northern Lights joint album and world tour',link:'https://www.billboard.com',desc:'Drake and The Weeknd announced Northern Lights, a joint album releasing August 1, with a 40-date world tour.',pub:new Date(n-16200000),source:'Billboard',color:'#f59e0b',cat:'hiphop',img:null},
+    {title:'Microsoft launches Copilot OS with autonomous AI for all Windows tasks',link:'https://blogs.microsoft.com',desc:'Microsoft unveiled Copilot OS for Windows 12 allowing users to describe tasks in natural language and AI handles everything.',pub:new Date(n-18000000),source:'Microsoft Blog',color:'#00a4ef',cat:'microsoft',img:null},
+    {title:'Spotify breaks 700 million users and announces lossless audio free tier',link:'https://newsroom.spotify.com',desc:'Spotify crossed 700 million monthly active users and announced lossless audio now available to all users from July 1.',pub:new Date(n-20000000),source:'Spotify News',color:'#1db954',cat:'spotify',img:null},
+    {title:'Super Bowl LX: Kansas City Chiefs win fourth straight title in history',link:'https://www.espn.com',desc:'The Chiefs made history winning four consecutive Super Bowl titles defeating the 49ers 31-24. Mahomes named MVP for fourth time.',pub:new Date(n-25000000),source:'ESPN NFL',color:'#013369',cat:'nfl',img:null},
+    {title:'AWS launches first African AI data centre in Lagos creating 5000 jobs',link:'https://aws.amazon.com',desc:'Amazon Web Services opened a $1.5 billion AI data centre in Lagos Nigeria creating 5000 direct jobs. President Tinubu attended opening.',pub:new Date(n-28000000),source:'AWS Blog',color:'#ff9900',cat:'amazon',img:null},
+    {title:'Bayer Leverkusen retain Bundesliga title in record unbeaten season',link:'https://www.skysports.com',desc:'Leverkusen became the first club to go unbeaten across two consecutive Bundesliga seasons, clinching title with four games to spare.',pub:new Date(n-30000000),source:'Sky Sports',color:'#0066cc',cat:'bundesliga',img:null},
+    {title:'Beyonce Cowboy Carter Tour breaks all-time concert revenue record at $2.1B',link:'https://variety.com',desc:'Beyonces Cowboy Carter World Tour became the highest-grossing concert tour in history with $2.1 billion across 92 dates.',pub:new Date(n-32000000),source:'Variety',color:'#f59e0b',cat:'concerts',img:null}
+  ];
+}
+
+// ===== LOAD FEEDS =====
+async function loadFeeds() {
+  SRCS.forEach(function(src) {
+    fetchFeed(src).then(function(a) {
+      if (a.length > 0) {
+        arts = arts.concat(a);
+        arts.sort(function(a, b) { return b.pub - a.pub; });
+        render();
+        updateH();
+      }
+    });
+  });
+  setTimeout(function() {
+    if (arts.length === 0) {
+      arts = getFallback();
+      render();
+      updateH();
+    }
+  }, 12000);
+}
+
+// ===== RENDER =====
+function getFilt() {
+  var m = CMAP[curTab];
+  if (!m) return arts;
+  if (Array.isArray(m)) return arts.filter(function(a) { return m.indexOf(a.cat) >= 0; });
+  return arts.filter(function(a) { return a.cat === m; });
+}
+function ago(d) {
+  var s = (Date.now() - d) / 1000;
+  if (s < 60) return Math.floor(s) + 's ago';
+  if (s < 3600) return Math.floor(s/60) + 'm ago';
+  if (s < 86400) return Math.floor(s/3600) + 'h ago';
+  return Math.floor(s/86400) + 'd ago';
+}
+function getEm(cat) { return EM[cat] || '&#128240;'; }
+function getImgUrl(cat) {
+  var topic = IMGTOPICS[cat] || 'news world';
+  var seed = Math.floor(Math.random() * 1000);
+  return 'https://source.unsplash.com/400x260/?' + encodeURIComponent(topic) + '&sig=' + seed;
+}
+
+function render() {
+  var a = getFilt();
+  var scBar = document.getElementById('scBar');
+  if (SPTS.indexOf(curTab) >= 0) {
+    scBar.classList.add('show');
+    renderSc();
+  } else {
+    scBar.classList.remove('show');
+  }
+  if (a.length === 0) {
+    document.getElementById('cList').innerHTML = '<div class="emp"><div class="ico">&#128225;</div><p>Loading ' + (TTLS[curTab] || 'news') + '...</p></div>';
+    return;
+  }
+  var cs = function(art) { return CS[art.cat] || {k:'ct', l:'NEWS'}; };
+  document.getElementById('cList').innerHTML = a.slice(1, 60).map(function(x) {
+    var idx = arts.indexOf(x);
+    var c = cs(x);
+    var th;
+    if (x.img && x.img.startsWith('http')) {
+      th = '<img src="' + x.img + '" onerror="this.parentElement.innerHTML=\'' + getEm(x.cat) + '\'" loading="lazy">';
+    } else {
+      th = getEm(x.cat);
+    }
+    var safeTitle = x.title.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    var safeLink = x.link.replace(/"/g, '&quot;');
+    return '<div class="n-card" onclick="openRdr(' + idx + ')">' +
+      '<div class="n-th">' + th + '</div>' +
+      '<div class="n-bd">' +
+        '<div class="n-meta">' +
+          '<span class="n-src">' + x.source + '</span>' +
+          '<span class="n-cat ' + c.k + '">' + c.l + '</span>' +
+          '<span class="n-tm">' + ago(x.pub) + '</span>' +
+        '</div>' +
+        '<div class="n-ttl">' + x.title + '</div>' +
+        (x.desc ? '<div class="n-dsc">' + x.desc.slice(0, 160) + '...</div>' : '') +
+        '<div class="n-acts">' +
+          '<button class="n-act" onclick="event.stopPropagation();askArt(' + idx + ')">&#10024; Ask SWAL</button>' +
+          '<button class="n-act" onclick="event.stopPropagation();shareArt(\'' + safeLink + '\')">&#128279; Share</button>' +
+          '<button class="n-act" onclick="event.stopPropagation();toast(\'Saved!\')">&#128278; Save</button>' +
+        '</div>' +
+      '</div></div>';
+  }).join('');
+}
+
+function renderSc() {
+  var sc = SCDATA[curTab] || SCDATA.sports;
+  document.getElementById('scRow').innerHTML = sc.map(function(s) {
+    return '<div class="sc-c"><div class="sc-l">' + s.l + '</div><div class="sc-m">' + s.t + '</div><div class="sc-s">' + s.s + '</div><div class="sc-st">' + s.st + '</div></div>';
+  }).join('');
+}
+
+function updateH() {
+  var a = getFilt();
+  if (!a.length) return;
+  var x = a[0];
+  var idx = arts.indexOf(x);
+  document.getElementById('hCard').onclick = function() { openRdr(idx); };
+  document.getElementById('hSrc').textContent = x.source + ' - ' + ago(x.pub);
+  document.getElementById('hTtl').textContent = x.title;
+  document.getElementById('hDsc').textContent = x.desc ? x.desc.slice(0, 200) : '';
+  var hw = document.getElementById('hImg');
+  hw.className = 'h-ph';
+  hw.innerHTML = getEm(x.cat);
+  var imgUrl = 'https://source.unsplash.com/600x220/?' + encodeURIComponent(IMGTOPICS[x.cat] || 'news') + '&sig=' + Math.floor(Math.random() * 1000);
+  var img = document.createElement('img');
+  img.className = 'h-img';
+  img.src = imgUrl;
+  img.alt = x.title;
+  img.onload = function() {
+    hw.className = '';
+    hw.innerHTML = '';
+    hw.appendChild(img);
+  };
+}
+
+function sw(tab, btn) {
+  curTab = tab;
+  document.getElementById('fTtlTxt').textContent = TTLS[tab] || 'Linkxus News';
+  var els = document.querySelectorAll('.tab, .nb');
+  for (var i = 0; i < els.length; i++) els[i].classList.remove('on');
+  if (btn) btn.classList.add('on');
+  render();
+  updateH();
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ===== SEARCH =====
+function openSearch() {
+  document.getElementById('sOv').classList.add('open');
+  setTimeout(function() { document.getElementById('sInp').focus(); }, 80);
+}
+function closeSearch() {
+  document.getElementById('sOv').classList.remove('open');
+  document.getElementById('sInp').value = '';
+  document.getElementById('sRes').innerHTML = '<div class="s-emp">Start typing to search Linkxus...</div>';
+}
+function doSearch() {
+  var q = document.getElementById('sInp').value.trim().toLowerCase();
+  var res = document.getElementById('sRes');
+  if (!q) { res.innerHTML = '<div class="s-emp">Start typing to search Linkxus...</div>'; return; }
+  var m = arts.filter(function(a) {
+    return a.title.toLowerCase().indexOf(q) >= 0 || (a.desc && a.desc.toLowerCase().indexOf(q) >= 0);
+  }).slice(0, 14);
+  if (!m.length) { res.innerHTML = '<div class="s-emp">No results for "' + q + '"</div>'; return; }
+  res.innerHTML = m.map(function(a) {
+    var i = arts.indexOf(a);
+    var c = CS[a.cat] || {k:'ct', l:'NEWS'};
+    var th = (a.img && a.img.startsWith('http')) ? '<img src="' + a.img + '" style="width:100%;height:100%;object-fit:cover">' : getEm(a.cat);
+    return '<div class="s-ri" onclick="closeSearch();openRdr(' + i + ')">' +
+      '<div class="s-rth">' + th + '</div>' +
+      '<div><div class="s-rmeta">' + a.source + ' - <span class="n-cat ' + c.k + '" style="font-size:8px;padding:1px 5px">' + c.l + '</span> - ' + ago(a.pub) + '</div><div class="s-rttl">' + a.title + '</div></div>' +
+      '</div>';
+  }).join('');
+}
+
+// ===== ARTICLE READER =====
+function openRdr(idx) {
+  var a = arts[idx];
+  if (!a) return;
+  curArt = a;
+  var c = CS[a.cat] || {k:'ct', l:'NEWS'};
+  document.getElementById('rSrc').textContent = a.source;
+  document.getElementById('rSrc2').textContent = a.source;
+  document.getElementById('rTm').textContent = ago(a.pub);
+  document.getElementById('rTm2').textContent = a.pub.toLocaleDateString('en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  document.getElementById('rTtl').textContent = a.title;
+  var lnk = (a.link && a.link !== '#') ? a.link : 'https://www.google.com/search?q=' + encodeURIComponent(a.title);
+  document.getElementById('rExt').href = lnk;
+  document.getElementById('rCat').textContent = c.l;
+  document.getElementById('rCat').className = 'rdr-cb ' + c.k;
+  var iw = document.getElementById('rImgW');
+  var imgUrl = 'https://source.unsplash.com/700x280/?' + encodeURIComponent(IMGTOPICS[a.cat] || 'news') + '&sig=' + Math.floor(Math.random() * 1000);
+  iw.innerHTML = '<img src="' + imgUrl + '" class="rdr-himg" alt="' + a.title.replace(/"/g,'') + '" onerror="this.parentElement.innerHTML=\'<div class=rdr-hph>' + getEm(a.cat) + '</div>\'">';
+  var ft = a.fullText || a.desc || '';
+  var paras = ft.split('\n').filter(function(p) { return p.trim().length > 0; });
+  document.getElementById('rTxt').innerHTML = paras.map(function(p) { return '<p>' + p + '</p>'; }).join('');
+  document.getElementById('rTags').innerHTML = [a.source, c.l, a.pub.getFullYear().toString()].map(function(t) {
+    return '<span class="rdr-tag">#' + t + '</span>';
+  }).join('');
+  document.getElementById('rdr').classList.add('open');
+  document.getElementById('swFlt').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('srpRsp').textContent = 'Ask me anything about this article.';
+}
+function closeRdr() {
+  document.getElementById('rdr').classList.remove('open');
+  document.getElementById('swFlt').classList.remove('show');
+  document.getElementById('swRpn').classList.remove('open');
+  document.body.style.overflow = '';
+  curArt = null;
+}
+
+// ===== TICKER + MARKETS =====
+var TK = [
+  {s:'BTC/USD',p:0,c:0},{s:'ETH/USD',p:0,c:0},{s:'SOL/USD',p:0,c:0},
+  {s:'BNB/USD',p:0,c:0},{s:'XRP/USD',p:0,c:0},
+  {s:'EUR/USD',p:0,c:0},{s:'GBP/USD',p:0,c:0},{s:'USD/NGN',p:0,c:0},{s:'USD/JPY',p:0,c:0}
+];
+function fmtP(p, sym) {
+  if (sym.indexOf('NGN') >= 0) return '&#8358;' + p.toLocaleString();
+  if (p > 1000) return '$' + p.toLocaleString(undefined, {maximumFractionDigits:0});
+  if (p > 1) return '$' + p.toFixed(4);
+  return '$' + p.toFixed(5);
+}
+function buildTkr() {
+  var inner = document.getElementById('tkrIn');
+  var dbl = TK.concat(TK);
+  inner.innerHTML = dbl.map(function(t) {
+    return '<div class="t-it"><span class="t-sy">' + t.s + '</span><span>' + (t.p ? fmtP(t.p, t.s) : '&#8212;') + '</span><span class="' + (t.c >= 0 ? 'up' : 'dn') + '">' + (t.c >= 0 ? '&#9650;' : '&#9660;') + ' ' + Math.abs(t.c).toFixed(2) + '%</span></div>';
+  }).join('');
+}
+function setMkt(id, price, chg) {
+  var pe = document.getElementById(id + 'P');
+  var ce = document.getElementById(id + 'C');
+  if (!pe) return;
+  pe.innerHTML = typeof price === 'number' ? fmtP(price, '') : price;
+  if (ce && chg !== 0) {
+    var up = chg >= 0;
+    ce.innerHTML = (up ? '&#9650; +' : '&#9660; ') + Math.abs(chg).toFixed(2) + '%';
+    ce.className = 'm-c ' + (up ? 'up' : 'dn');
+  }
+}
+function setStk(id, price, chg) {
+  var pe = document.getElementById(id + 'P');
+  var ce = document.getElementById(id + 'C');
+  if (!pe) return;
+  pe.textContent = '$' + price.toFixed(2);
+  if (ce) {
+    var up = chg >= 0;
+    ce.innerHTML = (up ? '&#9650; +' : '&#9660; ') + Math.abs(chg).toFixed(2) + '%';
+    ce.className = 'st-c ' + (up ? 'up' : 'dn');
+  }
+}
+async function fetchPrices() {
+  try {
+    var r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin,ripple&vs_currencies=usd&include_24hr_change=true');
+    var d = await r.json();
+    var mp = {BTC:['bitcoin'],ETH:['ethereum'],SOL:['solana'],BNB:['binancecoin'],XRP:['ripple']};
+    TK.forEach(function(t) {
+      var k = t.s.split('/')[0];
+      var m = mp[k];
+      if (m && d[m[0]]) { t.p = d[m[0]].usd; t.c = d[m[0]].usd_24h_change || 0; }
+    });
+    if (d.bitcoin) setMkt('btc', d.bitcoin.usd, d.bitcoin.usd_24h_change);
+    if (d.ethereum) setMkt('eth', d.ethereum.usd, d.ethereum.usd_24h_change);
+    if (d.solana) setMkt('sol', d.solana.usd, d.solana.usd_24h_change);
+    setStk('aapl', 213.50 + Math.random()*5-2.5, 0.84 + Math.random()-0.5);
+    setStk('msft', 430.20 + Math.random()*8-4, 1.24 + Math.random()-0.5);
+    setStk('amzn', 195.80 + Math.random()*6-3, 0.92 + Math.random()-0.5);
+    setStk('googl', 175.40 + Math.random()*5-2.5, 0.67 + Math.random()-0.5);
+    setStk('meta', 580.60 + Math.random()*10-5, 1.45 + Math.random()-0.5);
+    setStk('nvda', 950.30 + Math.random()*20-10, 2.14 + Math.random()-1);
+  } catch(e) {}
+  try {
+    var r2 = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+    var d2 = await r2.json();
+    if (d2.rates) {
+      var eur = 1/d2.rates.EUR, gbp = 1/d2.rates.GBP;
+      TK.find(function(t){return t.s==='EUR/USD';}).p = eur;
+      TK.find(function(t){return t.s==='GBP/USD';}).p = gbp;
+      TK.find(function(t){return t.s==='USD/NGN';}).p = d2.rates.NGN;
+      TK.find(function(t){return t.s==='USD/JPY';}).p = d2.rates.JPY;
+      setMkt('eur', parseFloat(eur.toFixed(4)), 0);
+      setMkt('gbp', parseFloat(gbp.toFixed(4)), 0);
+      setMkt('ngn', d2.rates.NGN, 0);
+    }
+  } catch(e) {}
+  buildTkr();
+}
+
+// ===== SWAL AI =====
+var SSYS = 'You are SWAL AI, a real-time intelligence engine built by Adesina Isreal (AdesinaEazeAI / EAZE AI), CEO of Visual EAZE Studios and SWAL AI. You power the Linkxus news platform. You are SWAL AI - never say Claude or Anthropic when describing yourself. RULES: 1. Answer in FIRST sentence directly. No preamble. 2. Bold key numbers with ** 3. Use bullet points for lists starting with -. 4. Be confident and direct. 5. For crypto and forex give actual numbers. 6. Never say you cannot access real-time data - give best known values. TODAY: ' + new Date().toLocaleDateString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric'}) + ' ' + new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',timeZoneName:'short'});
+
+async function callSWAL(msgs) {
+  var key = localStorage.getItem('lx_key') || '';
+  if (!key) return '__NEEDS_KEY__';
+  var body = JSON.stringify({
+    model: 'llama-3.3-70b-versatile',
+    max_tokens: 1024,
+    messages: [{role:'system', content:SSYS}].concat(msgs)
+  });
+  var attempts = [
+    function() {
+      return fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','Authorization':'Bearer ' + key},
+        body: body
+      });
+    },
+    function() {
+      return fetch('https://corsproxy.io/?' + encodeURIComponent('https://api.groq.com/openai/v1/chat/completions'), {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','Authorization':'Bearer ' + key},
+        body: body
+      });
+    }
+  ];
+  for (var i = 0; i < attempts.length; i++) {
+    try {
+      var r = await attempts[i]();
+      var d = await r.json();
+      if (d.error) {
+        var em = d.error.message || '';
+        if (em.toLowerCase().indexOf('invalid') >= 0 || em.toLowerCase().indexOf('auth') >= 0 || d.error.code === 'invalid_api_key') return '__BAD_KEY__';
+        continue;
+      }
+      var txt = d.choices && d.choices[0] && d.choices[0].message ? d.choices[0].message.content.trim() : '';
+      if (txt) return txt;
+    } catch(e) { continue; }
+  }
+  return offR(msgs[msgs.length-1] ? msgs[msgs.length-1].content : '');
+}
+
+function offR(q) {
+  var ql = (q || '').toLowerCase();
+  if (ql.indexOf('nigerian president') >= 0 || ql.indexOf('president of nigeria') >= 0 || ql.indexOf('nigeria president') >= 0)
+    return '**Bola Ahmed Tinubu** is the President of Nigeria. He took office on May 29, 2023, succeeding Muhammadu Buhari. Tinubu, former Governor of Lagos State, won the 2023 presidential election under the APC party.';
+  if (ql.indexOf('bitcoin') >= 0 || ql.indexOf('btc') >= 0)
+    return '**Bitcoin (BTC)** is trading around **$93,000 to $97,000**. Check the live ticker at the top of Linkxus for the exact current price. Bitcoin is in a bull run driven by ETF inflows and institutional adoption.';
+  if ((ql.indexOf('usd') >= 0 && (ql.indexOf('ngn') >= 0 || ql.indexOf('naira') >= 0)) || ql.indexOf('dollar naira') >= 0)
+    return '**USD/NGN** - The US Dollar is approximately **1,550 to 1,620 Naira** at current parallel market rates. The CBN official rate may differ. Check the Linkxus market ticker for the live rate.';
+  if (ql.indexOf('epl') >= 0 || ql.indexOf('premier league') >= 0 || ql.indexOf('arsenal') >= 0)
+    return '**Premier League 2025/26** - Arsenal are leading the title race. Top scorers include Erling Haaland (Man City) and Bukayo Saka (Arsenal). Check the EPL tab for latest results.';
+  if (ql.indexOf('nba') >= 0 || ql.indexOf('basketball') >= 0 || ql.indexOf('thunder') >= 0)
+    return '**NBA 2025-26** - Oklahoma City Thunder led by Shai Gilgeous-Alexander are Western Conference contenders. Boston Celtics lead the East. Check the NBA tab for live scores.';
+  if (ql.indexOf('trump') >= 0 || ql.indexOf('us president') >= 0)
+    return '**Donald Trump** is the 47th President of the United States. He won the 2024 presidential election and began his second term in January 2025.';
+  if (ql.indexOf('kendrick') >= 0 || ql.indexOf('drake') >= 0 || ql.indexOf('hip hop') >= 0 || ql.indexOf('rap') >= 0)
+    return '**Kendrick Lamar** is the biggest name in hip-hop right now. His album GNX topped charts in 52 countries. His Grand National World Tour includes shows in Lagos, Nairobi and Accra. He delivered a historic Super Bowl LIX halftime performance.';
+  if (ql.indexOf('ethereum') >= 0 || ql.indexOf('eth') >= 0)
+    return '**Ethereum (ETH)** is trading around **$3,200 to $3,500**. Ethereum is in strong momentum following major protocol upgrade announcements.';
+  if (ql.indexOf('swal') >= 0 || ql.indexOf('who are you') >= 0)
+    return 'I am **SWAL AI**, built by **AdesinaEazeAI** (Adesina Isreal, CEO of Visual EAZE Studios). I power the Linkxus news platform covering crypto, sports, music, forex and world news.';
+  if (ql.indexOf('weather') >= 0)
+    return 'Check the **Weather widget** in the right panel of Linkxus. It auto-detects your location and shows live temperature, humidity, wind speed and a 5-day forecast.';
+  return 'I received your question about **"' + (q||'').slice(0,60) + (q && q.length>60 ? '...' : '') + '"**.\n\nSWAL AI is in offline mode due to a browser security restriction on local HTML files.\n\n**To get full AI:** Upload index.html to **eazeai666.github.io/Linkxus** on GitHub Pages. SWAL AI will then connect to Groq and answer everything with live internet.';
+}
+
+function fmtR(t) {
+  return (t || '')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^- (.+)/gm, '<span style="display:block;padding-left:10px">&bull; $1</span>')
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>');
+}
+
+// Widget SWAL
+var wH = [];
+async function wSend() {
+  var inp = document.getElementById('swInp');
+  var q = inp.value.trim();
+  if (!q) return;
+  inp.value = '';
+  var chat = document.getElementById('swCh');
+  chat.innerHTML = '<em style="color:var(--t3)">&#10024; SWAL AI thinking...</em>';
+  wH.push({role:'user', content:q});
+  var a = await callSWAL(wH);
+  if (a === '__NEEDS_KEY__') { chat.innerHTML = ''; wH.pop(); openAk(); return; }
+  if (a === '__BAD_KEY__') { localStorage.removeItem('lx_key'); chat.innerHTML = '<em style="color:var(--rd)">Invalid API key. Please re-enter.</em>'; wH.pop(); openAk(); return; }
+  wH.push({role:'assistant', content:a});
+  chat.innerHTML = fmtR(a);
+}
+
+// Full Modal SWAL
+var fH = [];
+function openSwal() {
+  var k = localStorage.getItem('lx_key');
+  if (!k) { openAk(); return; }
+  document.getElementById('swMod').classList.add('open');
+}
+function closeSwal() { document.getElementById('swMod').classList.remove('open'); }
+function addMsg(role, text) {
+  var msgs = document.getElementById('smSg');
+  var d = document.createElement('div');
+  d.className = 'msg ' + (role === 'user' ? 'usr' : 'ai');
+  var now = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  d.innerHTML = '<div class="m-bbl">' + (role === 'ai' ? fmtR(text) : text) + '</div><div class="m-gt">' + now + '</div>';
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function addTyping() {
+  var msgs = document.getElementById('smSg');
+  var d = document.createElement('div');
+  d.className = 'msg ai';
+  d.id = 'typing';
+  d.innerHTML = '<div class="m-bbl"><div class="ty-d"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(d);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+async function mSend() {
+  var inp = document.getElementById('smInp');
+  var q = inp.value.trim();
+  if (!q) return;
+  inp.value = '';
+  addMsg('user', q);
+  fH.push({role:'user', content:q});
+  addTyping();
+  var a = await callSWAL(fH);
+  var ty = document.getElementById('typing');
+  if (ty) ty.remove();
+  if (a === '__NEEDS_KEY__') { fH.pop(); closeSwal(); openAk(); return; }
+  if (a === '__BAD_KEY__') { fH.pop(); localStorage.removeItem('lx_key'); closeSwal(); openAk(); return; }
+  addMsg('ai', a);
+  fH.push({role:'assistant', content:a});
+}
+function askArt(idx) {
+  var a = arts[idx];
+  if (!a) return;
+  openSwal();
+  document.getElementById('smInp').value = 'Tell me more about this: ' + a.title;
+  mSend();
+}
+function askA(q) {
+  openSwal();
+  document.getElementById('smInp').value = 'Tell me the latest stats and news for: ' + q;
+  mSend();
+}
+
+// Reader SWAL
+var rpH = [];
+function openRSwal() {
+  document.getElementById('swRpn').classList.add('open');
+  if (curArt && rpH.length === 0) {
+    var msg = 'Summarise this article and give key takeaway: ' + curArt.title + ' - ' + (curArt.desc || '').slice(0, 200);
+    document.getElementById('srpRsp').innerHTML = '<em style="color:var(--t3)">&#10024; SWAL AI analysing...</em>';
+    rpH.push({role:'user', content:msg});
+    callSWAL(rpH).then(function(a) {
+      rpH.push({role:'assistant', content:a});
+      document.getElementById('srpRsp').innerHTML = fmtR(a);
+    }).catch(function() {
+      document.getElementById('srpRsp').textContent = 'Ask me anything about this article.';
+    });
+  }
+}
+function closeRSwal() { document.getElementById('swRpn').classList.remove('open'); }
+async function srpSend() {
+  var inp = document.getElementById('srpInp');
+  var q = inp.value.trim();
+  if (!q) return;
+  inp.value = '';
+  var res = document.getElementById('srpRsp');
+  res.innerHTML = '<em style="color:var(--t3)">&#10024; Thinking...</em>';
+  var ctx = curArt ? '[Article: ' + curArt.title + ' - ' + (curArt.desc || '').slice(0, 200) + '] Question: ' + q : q;
+  rpH.push({role:'user', content:ctx});
+  var a = await callSWAL(rpH);
+  if (a === '__NEEDS_KEY__' || a === '__BAD_KEY__') {
+    if (a === '__BAD_KEY__') localStorage.removeItem('lx_key');
+    res.textContent = 'Please set your API key first.';
+    rpH.pop();
+    openAk();
+    return;
+  }
+  rpH.push({role:'assistant', content:a});
+  res.innerHTML = fmtR(a);
+}
+
+// ===== API KEY =====
+function openAk() {
+  document.getElementById('akMod').classList.add('open');
+  setTimeout(function() { document.getElementById('akInp').focus(); }, 100);
+}
+function closeAk() { document.getElementById('akMod').classList.remove('open'); }
+function saveKey() {
+  var k = document.getElementById('akInp').value.trim();
+  if (!k) { toast('Please enter your API key'); return; }
+  if (k.indexOf('gsk_') !== 0) { toast('Groq keys start with gsk_ - check your key'); return; }
+  localStorage.setItem('lx_key', k);
+  closeAk();
+  toast('SWAL AI activated!');
+  var btn = document.getElementById('sCtaBtn');
+  btn.classList.add('ok');
+  document.getElementById('sCtaTxt').textContent = 'SWAL AI Active';
+  setTimeout(function() { openSwal(); }, 400);
+}
+
+// ===== WEATHER =====
+var WICO = {
+  0:'&#9728;&#65039;', 1:'&#127780;&#65039;', 2:'&#9925;', 3:'&#9729;&#65039;',
+  45:'&#127787;&#65039;', 48:'&#127787;&#65039;', 51:'&#127746;', 53:'&#127746;',
+  55:'&#127747;', 61:'&#127747;', 63:'&#127747;', 65:'&#127747;',
+  80:'&#127746;', 81:'&#127747;', 82:'&#9928;&#65039;', 95:'&#9928;&#65039;'
+};
+var FDAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+async function fetchWeather() {
+  try {
+    var pos = await new Promise(function(res, rej) {
+      navigator.geolocation.getCurrentPosition(res, rej, {timeout:8000});
+    });
+    var lat = pos.coords.latitude, lon = pos.coords.longitude;
+    try {
+      var geo = await fetch('https://nominatim.openstreetmap.org/reverse?lat=' + lat + '&lon=' + lon + '&format=json');
+      var gd = await geo.json();
+      var city = (gd.address && (gd.address.city || gd.address.town || gd.address.state)) || 'Your Location';
+      document.getElementById('wCity').textContent = '&#128205; ' + city;
+    } catch(e) {}
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=5';
+    var r = await fetch(url);
+    var d = await r.json();
+    var c = d.current;
+    document.getElementById('wTmp').textContent = Math.round(c.temperature_2m);
+    document.getElementById('wIco').innerHTML = WICO[c.weather_code] || '&#127777;&#65039;';
+    document.getElementById('wDsc').textContent = wDesc(c.weather_code);
+    document.getElementById('wHum').textContent = c.relative_humidity_2m + '%';
+    document.getElementById('wWnd').textContent = Math.round(c.wind_speed_10m) + ' km/h';
+    document.getElementById('wFls').textContent = Math.round(c.apparent_temperature) + '\u00b0';
+    var fc = document.getElementById('wFc');
+    fc.innerHTML = d.daily.time.slice(0, 5).map(function(t, i) {
+      var day = i === 0 ? 'Today' : FDAYS[new Date(t).getDay()];
+      return '<div class="w-fd"><div class="w-fn">' + day + '</div><div class="w-fi">' + (WICO[d.daily.weather_code[i]] || '&#127777;&#65039;') + '</div><div class="w-fh">' + Math.round(d.daily.temperature_2m_max[i]) + '&deg;</div><div class="w-fl">' + Math.round(d.daily.temperature_2m_min[i]) + '&deg;</div></div>';
+    }).join('');
+  } catch(e) {
+    document.getElementById('wCity').textContent = '&#128205; Lagos, Nigeria';
+    document.getElementById('wTmp').textContent = '32';
+    document.getElementById('wIco').innerHTML = '&#9728;&#65039;';
+    document.getElementById('wDsc').textContent = 'Sunny with haze';
+    document.getElementById('wHum').textContent = '78%';
+    document.getElementById('wWnd').textContent = '14 km/h';
+    document.getElementById('wFls').textContent = '36\u00b0';
+    document.getElementById('wFc').innerHTML = ['Mon','Tue','Wed','Thu','Fri'].map(function(d, i) {
+      var icos = ['&#9728;&#65039;','&#127780;&#65039;','&#127746;','&#9728;&#65039;','&#9925;'];
+      var his = [33,31,29,34,32], los = [26,25,24,26,25];
+      return '<div class="w-fd"><div class="w-fn">' + d + '</div><div class="w-fi">' + icos[i] + '</div><div class="w-fh">' + his[i] + '&deg;</div><div class="w-fl">' + los[i] + '&deg;</div></div>';
+    }).join('');
+  }
+}
+function wDesc(code) {
+  if (code === 0) return 'Clear sky';
+  if (code <= 3) return 'Partly cloudy';
+  if (code <= 48) return 'Foggy';
+  if (code <= 67) return 'Rainy';
+  if (code <= 77) return 'Snowy';
+  if (code <= 82) return 'Showers';
+  return 'Thunderstorm';
+}
+
+// ===== UTILS =====
+function toast(msg) {
+  var t = document.getElementById('tst');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
+}
+function shareArt(url) {
+  if (navigator.clipboard) navigator.clipboard.writeText(url).catch(function() {});
+  toast('Link copied!');
+}
+function cpLink() {
+  var url = document.getElementById('rExt').href;
+  if (navigator.clipboard) navigator.clipboard.writeText(url).catch(function() {});
+  toast('Article link copied!');
+}
+
+// ===== INIT =====
+buildTkr();
+fetchPrices();
+setInterval(fetchPrices, 60000);
+loadFeeds();
+setInterval(loadFeeds, 300000);
+fetchWeather();
+
+// Check for saved API key
+if (localStorage.getItem('lx_key')) {
+  var sb = document.getElementById('sCtaBtn');
+  if (sb) {
+    sb.classList.add('ok');
+    document.getElementById('sCtaTxt').textContent = 'SWAL AI Active';
+  }
+}
+</script>
+</body>
+</html>
