@@ -72,4 +72,4 @@ Linkxus utilizes a modern, lightweight, and scalable stack to ensure a premium u
 Distributed under the MIT License. See LICENSE for more information.
 ## ✉️ Contact
 **Adesina Isreal Ayomide** - Founder of Visual Eaze Studios & SWAL-AI
-Project Link: https://github.com/your-username/linkxus
+Project Link: https://github.com/eazeai666/linkxus
